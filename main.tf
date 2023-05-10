@@ -75,7 +75,6 @@ resource "oci_core_default_security_list" "aylas-net-security-list" {
     protocol    = "all"
     stateless   = "false"
   }
-  # Ingress SSH traffic
   ingress_security_rules {
     description = "In-band SSH management and services traffic"
     protocol    = "6"
@@ -105,7 +104,6 @@ resource "oci_core_default_security_list" "aylas-net-security-list" {
     source    = "10.0.0.0/16"
     stateless = "false"
   }
-  # Ingress Minecraft server traffic
   ingress_security_rules {
     description = "Minecraft server ingress traffic"
     protocol    = "6"
@@ -116,7 +114,6 @@ resource "oci_core_default_security_list" "aylas-net-security-list" {
       min = "25565"
     }
   }
-  # Ingress Dynmap HTTP server traffic
   ingress_security_rules {
     description = "Dynmap HTTP server ingress traffic"
     protocol    = "6"

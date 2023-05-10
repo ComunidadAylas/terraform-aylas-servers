@@ -113,11 +113,11 @@
     mode: u=rw,g=,o=
     create: true
 
-- name: Allow passwordless root login on secure terminals
+- name: Allow passwordless root login on trusted out-of-band terminal
   become: true
   ansible.builtin.blockinfile:
     path: /etc/pam.d/login
-    marker: "# {mark} allow passwordless root login on secure terminals"
+    marker: "# {mark} allow passwordless root login trusted out-of-band terminal"
     block: auth sufficient pam_listfile.so item=tty sense=allow file=/etc/securetty onerr=fail apply=root
     insertbefore: BOF
 
