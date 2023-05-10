@@ -33,7 +33,7 @@ jobs:
         run: terraform fmt -check
 
       - name: 🔍 Validate Terraform files
-        run: terraform fmt -check
+        run: terraform validate
 
   ansible_lint:
     name: Ansible lint
