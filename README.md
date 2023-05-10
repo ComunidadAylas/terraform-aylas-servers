@@ -78,10 +78,17 @@ improvements, or use parts of our configuration in your own deployments!
     mass SSH scans that plague the Internet with a minimal impact on usability
     and availability.
 - 🆕 **Automated** daily system and server software **updates**.
+- 🚨 The `ttyAMA0` serial console is set up for [**out-of-band
+  management**](https://en.wikipedia.org/wiki/Out-of-band_management), ensuring
+  that trusted parties can control the instance using the OCI web panel even if
+  SSH connectivity is lost.
 - 📊 Per-service **disk quotas** to guarantee the expected distribution of disk
   space and mitigate the impact of errant applications.
 - 🔝 **Static analysis** checks are executed on each push by GitHub Actions
   runners to guarantee code quality.
+- 🙌 Due to the usage of vendor-agnostic IaC tools and standard Linux software,
+  **we avoid cloud vendor lock-in**. It should be easy to port this
+  configuration to other cloud environments.
 - 🤑 Thanks to OCI's generous [Always Free
   tier](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm),
   you can get all of this for free!*
@@ -97,13 +104,14 @@ aware of any other fine print in their conditions.</sup></sub>
 
 # 📥 Getting started
 
-After cloning the repository, run `terrashell.sh` on a Unix-like environment
-with `python3` and `pip` available (Linux, WSL/Cygwin, macOS, BSD) to set up a
-temporary [virtual environment](https://docs.python.org/3/library/venv.html)
-where Terraform, Ansible and the OCI CLI will be installed. This environment is
-automatically cleaned up on exit. On this environment you can **run `terraform
-apply` to deploy and provision the infrastructure in less than 10 minutes**, in
-addition to other Terraform and Ansible commands.
+After cloning the repository, run `terrashell.sh` on a Linux-like environment
+with `python3` and `pip` available (Linux, WSL) to set up a temporary [virtual
+environment](https://docs.python.org/3/library/venv.html) where Terraform,
+Ansible and the OCI CLI will be installed. This environment is automatically
+cleaned up on exit. If you are using another operating system, you can set up
+this environment manually. From here you can **run `terraform apply` to deploy
+and provision the infrastructure in less than 10 minutes**, in addition to other
+Terraform and Ansible commands.
 
 ## ✏️ Variables and secrets
 
