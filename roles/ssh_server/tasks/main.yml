@@ -1,0 +1,179 @@
+- name: Copy SSH banner
+  become: true
+  ansible.builtin.copy:
+    src: ssh_banner.txt
+    dest: /etc/ssh/banner
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Use SSH banner
+  become: true
+  notify: Reload SSH config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    line: Banner /etc/ssh/banner
+    regexp: ^Banner
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    insertbefore: BOF
+
+- name: Disable distro version suffix in SSH handshake
+  become: true
+  notify: Reload SSH config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    line: DebianBanner no
+    regexp: ^DebianBanner
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    insertafter: EOF
+
+- name: Disable X11 SSH forwarding
+  become: true
+  notify: Reload SSH config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    line: "#X11Forwarding no"
+    regexp: ^X11Forwarding
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    insertafter: EOF
+
+- name: Use internal SFTP server
+  become: true
+  notify: Reload SSH config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    line: Subsystem sftp internal-sftp
+    regexp: ^Subsystem\s+sftp
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    insertafter: EOF
+
+# An usual login shell would allow forwarding and file transfers
+# anyway because users can run arbitrary programs to achieve effect.
+# However, disabling them when a restricted shell is being forced
+# actually prevents such operations from taking place. Also, forcing
+# a command effectively disables SFTP and running arbitrary programs
+# or an usual login shell, but requires the user shell to be set to
+# a proper login shell. Related reads:
+# https://serverfault.com/questions/660160/openssh-difference-between-internal-sftp-and-sftp-server
+# https://unix.stackexchange.com/questions/503312/is-it-possible-to-grant-users-sftp-access-without-shell-access-if-yes-how-is-i
+# https://www.ibm.com/docs/en/zos/2.3.0?topic=administrators-limiting-file-system-name-space-sftp-users
+# https://unix.stackexchange.com/questions/686174/sshd-config-forcecommand-is-blocking-scp
+# https://man.openbsd.org/sshd_config
+# https://docstore.mik.ua/orelly/networking_2ndEd/ssh/ch05_07.htm
+- name: Allow restricted shell SSH access only for some users
+  become: true
+  notify: Reload SSH config
+  loop: "{{ restricted_shell_users }}"
+  ansible.builtin.copy:
+    content: |
+      Match user {{ item.name }}
+        DisableForwarding yes
+        ForceCommand {{ item.restricted_shell }}
+    dest: /etc/ssh/sshd_config.d/{{ item.name }}.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Set /bin/sh as login shell for restricted shell SSH access users
+  become: true
+  loop: "{{ restricted_shell_users }}"
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    shell: /bin/sh
+
+# ForceCommand ensures that SFTP is used no matter what
+# the login shell is. We can't override the sftp subsystem
+# on match blocks, so let's change the user home directory
+# to achieve an effect similar to setting the -d option for
+# internal-sftp. The AuthorizedKeysFile path is resolved
+# against the original root (i.e., outside of the chroot),
+# and we want such file to not be linked to the location of
+# the user's home directory
+- name: Only allow SFTP access for some users
+  become: true
+  notify: Reload SSH config
+  loop: "{{ sftp_only_users }}"
+  ansible.builtin.copy:
+    content: |
+      Match user {{ item.name }}
+        DisableForwarding yes
+        ForceCommand internal-sftp
+        AuthorizedKeysCommandUser root
+        AuthorizedKeysCommand /bin/cat /etc/ssh/authorized_keys/%u
+        ChrootDirectory {{ item.chroot_directory }}
+    dest: /etc/ssh/sshd_config.d/{{ item.name }}.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Create /etc/ssh/authorized_keys directory for SFTP-only users authorized keys
+  become: true
+  loop: "{{ sftp_only_users }}"
+  ansible.builtin.file:
+    path: /etc/ssh/authorized_keys
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwx,g=rwx,o=rx
+
+- name: Create SFTP-only users
+  become: true
+  loop: "{{ sftp_only_users }}"
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    group: "{{ item.group }}"
+    # pri=-10 is read by the pam_umask module to set the default process
+    # niceness. That module is executed for every login as this user
+    comment: SFTP-only user,pri=5
+    shell: /usr/sbin/nologin
+    generate_ssh_key: "{{ tf_provisioner_run is defined }}"
+    ssh_key_comment: "{{ item.name }}@{{ inventory_hostname }}"
+    ssh_key_file: /etc/ssh/authorized_keys/{{ item.name }}_key
+    home: "{{ item.start_directory }}"
+    create_home: false
+
+- name: Retrieve SFTP-only users SSH login private key
+  become: true
+  loop: "{{ sftp_only_users }}"
+  when: tf_provisioner_run is defined
+  ansible.builtin.fetch:
+    src: /etc/ssh/authorized_keys/{{ item.name }}_key
+    dest: login_keys
+    fail_on_missing: false
+
+- name: Delete SFTP-only users SSH login private keys
+  become: true
+  when: tf_provisioner_run is defined
+  loop: "{{ sftp_only_users }}"
+  ansible.builtin.file:
+    path: /etc/ssh/authorized_keys/{{ item.name }}_key
+    state: absent
+
+- name: Register generated public keys as authorized for SFTP-only users SSH login
+  become: true
+  when: tf_provisioner_run is defined
+  loop: "{{ sftp_only_users }}"
+  failed_when: false
+  ansible.builtin.copy:
+    src: /etc/ssh/authorized_keys/{{ item.name }}_key.pub
+    remote_src: true
+    dest: /etc/ssh/authorized_keys/{{ item.name }}
+    owner: root
+    group: root
+    mode: u=rw,g=rw,o=
+
+- name: Delete SFTP-only users SSH login public keys
+  become: true
+  when: tf_provisioner_run is defined
+  loop: "{{ sftp_only_users }}"
+  ansible.builtin.file:
+    path: /etc/ssh/authorized_keys/{{ item.name }}_key.pub
+    state: absent

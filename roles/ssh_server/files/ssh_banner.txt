@@ -1,0 +1,35 @@
+                             ';.
+                            ,;;;.
+                          .;;;;;;'
+                         .;;;;;;;;'
+                        '::::::::::;
+                       cdl:::::::::cc.
+                      ldddoc::::::cccc.
+                    .odddddoc:::ccccccc,
+                   .dddddddddc:ccccccccc;
+                  ckkkkkkkkkk, llllllllll:        .
+                 dKK00000000.   :lllllll:;,      .oc'
+                xKKKK000000      'lllll:;;;;.
+              .OKKKKKK000k        .llc;;;;;;;.       ..;.
+             '0KKKKKKKK0l           c;;;;;;;;;'    .;:::'
+            'xkkkkkkkkk, .:::::::::;;,,,,,,,,,,'       :,
+           ;oodxxxxxxx.   .lllllllc;;,,,,,,,,,,,'
+          coooodxxxxx       lllll:;;;;;,,,,,,,,,,,.
+         loooooooxxd         lll:;;;;;;;,,,,,,,,,,,.
+       .loooooooooc           ;;;;;;;;;;;,,,,,,,,,,,.
+      .;:::::::::.                         ;;;;;;;;;;;
+     .,,,;::::::.                           ,;;;;;;;::;
+    .,,,,,;::::                              .;;;;;:::::.
+   ',,,,,,,;::                                .;;::::::::.
+
+This server belongs to the Aylas Community.
+
+The server logs may be routinely reviewed for suspicious
+activity. By interacting with our server, you consent to
+such monitoring. If you don't agree or are not authorized to
+use this server, please disconnect immediately. Otherwise,
+carry on doing great stuff!
+
+If you have found a security vulnerability that affects any
+of our servers, please contact us at equipo@aylas.org.
+

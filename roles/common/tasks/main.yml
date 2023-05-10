@@ -1,0 +1,166 @@
+- name: Wait for instance to be reachable
+  ansible.builtin.wait_for_connection:
+
+- name: Install essential APT packages
+  become: true
+  # apt update may temporarily fail on instances that were just created
+  retries: 6
+  delay: 5
+  register: apt_update
+  until: apt_update is success
+  ansible.builtin.apt:
+    package:
+      - vim
+      - less
+      - aptitude
+      # machinectl is useful to login as other users with a fully initialized
+      # systemd environment
+      - systemd-container
+      # Necessary for Ansible:
+      # https://docs.ansible.com/ansible-core/2.14/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-an-unprivileged-user
+      - acl
+    install_recommends: false
+    update_cache: true
+
+- name: Remove bloat Ubuntu packages
+  become: true
+  ansible.builtin.apt:
+    package:
+      - udisks2
+      - usrmerge
+      - xfsprogs
+      - usb.ids
+      - fwupd
+      - tpm-udev
+      - systemd-hwe-hwdb
+      - thin-provisioning-tools
+      - sosreport
+      - sg3-utils
+      - mdadm
+      - lxd-installer
+      - lvm2
+      - pollinate
+      - bolt
+      - btrfs-progs
+      - usb-modeswitch
+      - usb-modeswitch-data
+      - fonts-ubuntu-console
+      - tcl
+      - tcl8.6
+      - girl1.2-packagekitglib-1.0
+      - ssh-import-id
+      - lxd-agent-loader
+      - modemmanager
+      - libqmiproxy
+      - libmbim-proxy
+      - open-iscsi
+      - rpcbind
+      - ssh-import-id
+      - ntfs-3g
+      - apport
+      - bcache-tools
+      - eatmydata
+      - eject
+      - fwupd-signed
+      - cryptsetup
+      - cryptsetup-bin
+      - dmeventd
+    state: absent
+    purge: true
+    autoremove: true
+
+- name: Get list of installed libraries
+  register: aptitude_search
+  changed_when: false
+  when: tf_provisioner_run is defined
+  ansible.builtin.command: aptitude search -F '%p' '?section (libs) ?installed'
+
+- name: Mark all libraries as automatically installed
+  loop: "{{ aptitude_search.stdout.split('\n') }}"
+  become: true
+  changed_when: true
+  when: tf_provisioner_run is defined
+  ansible.builtin.command: apt-mark auto '{{ item }}'
+
+- name: Purge unused libraries
+  become: true
+  changed_when: true
+  when: tf_provisioner_run is defined
+  ansible.builtin.command: aptitude purge -y --purge-unused
+
+- name: Delete OPC user
+  become: true
+  ansible.builtin.user:
+    name: opc
+    state: absent
+    remove: true
+
+- name: Disable systemd agetty service on tty1
+  become: true
+  ansible.builtin.systemd_service:
+    name: getty@tty1
+    state: stopped
+    enabled: false
+
+- name: Add serial console to /etc/securetty
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/securetty
+    line: ttyAMA0
+    insertbefore: BOF
+    owner: root
+    group: root
+    mode: u=rw,g=,o=
+    create: true
+
+- name: Allow passwordless root login on secure terminals
+  become: true
+  ansible.builtin.blockinfile:
+    path: /etc/pam.d/login
+    marker: "# {mark} allow passwordless root login on secure terminals"
+    block: auth sufficient pam_listfile.so item=tty sense=allow file=/etc/securetty onerr=fail apply=root
+    insertbefore: BOF
+
+# Contrary to what most people on the Internet believe, modern Linux
+# distributions handle setting the default umask for an user via the
+# pam_umask module, outside of /etc/profile, /etc/profile.d/*,
+# ~/.profile or other similar application-specific configuration files.
+# As pam_umask(8) states, and the comments at the default /etc/login.defs
+# and /etc/pam.d/common-session files of a stock Debian/Ubuntu describe, the
+# correct way to set a default umask for all users is to change
+# /etc/login.defs. Debian/Ubuntu's pam_umask is built with usergroups on by
+# default, so the mask group bits are set to match the user bits if user name =
+# group name and uid != 0. The default value is 022: allow others to read
+# files and traverse folders by default, but disallow others in the group
+# from modifying files.
+#
+# A 0007 umask shares files with other users in the same group even if the main
+# group name does not match the user name, and disallows sharing stuff with
+# others, which is safer. It also applies to SFTP logins, as SSH integrates
+# with the PAM subsystem
+- name: Set umask to share new files with the primary group and prevent reads from others by default
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    line: UMASK 0007
+    regexp: ^UMASK
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    insertafter: EOF
+
+- name: Create htop user configuration directory
+  ansible.builtin.file:
+    path: /home/{{ control_user_name }}/.config/htop
+    state: directory
+    owner: "{{ control_user_name }}"
+    group: "{{ control_user_group }}"
+    mode: u=rwx,g=,o=
+
+- name: Copy htop configuration
+  ansible.builtin.copy:
+    src: htoprc
+    dest: /home/{{ control_user_name }}/.config/htop/htoprc
+    owner: "{{ control_user_name }}"
+    group: "{{ control_user_group }}"
+    mode: u=rw,g=rw,o=r

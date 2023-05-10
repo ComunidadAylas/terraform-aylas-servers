@@ -1,0 +1,58 @@
+name: Static analysis
+
+on:
+  push:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  terraform_lint:
+    name: Terraform lint
+
+    runs-on: ubuntu-22.04
+
+    # Exclude in-repo PRs from running this job
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork
+
+    steps:
+      - name: 📥 Checkout source
+        uses: actions/checkout@v3
+
+      - name: 🧰 Setup Terraform CLI
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.6
+          terraform_wrapper: false
+
+      - name: ⚙️ Initialize Terraform
+        run: terraform init
+
+      - name: 🔍 Terraform files format check
+        run: terraform fmt -check
+
+      - name: 🔍 Validate Terraform files
+        run: terraform fmt -check
+
+  ansible_lint:
+    name: Ansible lint
+
+    runs-on: ubuntu-22.04
+
+    # Exclude in-repo PRs from running this job
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork
+
+    steps:
+      - name: 📥 Checkout source
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Create Ansible Vault password file
+        env:
+          ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+        run: |
+          mkdir secrets
+          echo "$ANSIBLE_VAULT_PASSWORD" > secrets/vault_password
+
+      - name: 🔍 Run ansible-lint
+        uses: ansible/ansible-lint-action@v6

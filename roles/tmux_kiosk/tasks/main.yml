@@ -1,0 +1,68 @@
+- name: Install tmux
+  become: true
+  ansible.builtin.apt:
+    package: tmux
+    install_recommends: false
+
+- name: Copy tmux_kiosk script
+  become: true
+  ansible.builtin.copy:
+    content: |
+      #!/bin/sh
+      exec tmux attach-session
+    dest: /usr/bin/tmux_kiosk
+    owner: root
+    group: root
+    mode: u=rwx,g=rwx,o=rx
+
+- name: Set tmux_kiosk as restricted login shell
+  become: true
+  loop: "{{ users }}"
+  ansible.builtin.user:
+    name: "{{ item }}"
+    shell: /usr/bin/tmux_kiosk
+
+# If this user somehow gets an unrestricted login shell
+# (i.e., other role sets it, or other user runs sudo),
+# make sure that the intended kiosk is also shown.
+# By itself, this won't prevent running arbitrary commands
+# when that shell is not run in interactive mode
+- name: Replace login shell process with tmux_kiosk
+  become: true
+  loop: "{{ users }}"
+  ansible.builtin.lineinfile:
+    path: /home/{{ item }}/.profile
+    line: exec /usr/bin/tmux_kiosk
+    insertafter: EOF
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: u=rw,g=rw,o=
+    create: true
+
+- name: Create tmux user configuration directory
+  become: true
+  loop: "{{ users }}"
+  ansible.builtin.file:
+    path: /home/{{ item }}/.config/tmux
+    state: directory
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: u=rwx,g=rwx,o=rx
+
+- name: Set tmux user configuration
+  become: true
+  loop: "{{ users }}"
+  ansible.builtin.copy:
+    content: |
+      # Disable any operations but detaching with Ctrl + C
+      unbind-key -a
+      bind-key -n C-c detach
+      # Customize status bar appearance
+      set-option -g status-left ''
+      set-option -g status-right '#(uptime)'
+      set-option -g status-right-length 80
+    dest: /home/{{ item }}/.config/tmux/tmux.conf
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: u=r,g=r,o=r
+    attributes: i

@@ -1,0 +1,6 @@
+- name: Clean downloaded APT package files and remove orphaned packages
+  become: true
+  ansible.builtin.apt:
+    clean: true
+    autoremove: true
+    autoclean: true

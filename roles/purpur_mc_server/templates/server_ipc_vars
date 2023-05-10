@@ -1,0 +1,7 @@
+# shellcheck shell=sh
+
+readonly TRANSIENT_FILES_DIR="${XDG_RUNTIME_DIR:?Undefined XDG_RUNTIME_DIR}"/purpur-mc-server
+mkdir -p "$TRANSIENT_FILES_DIR"
+
+readonly PID_FILE_PATH="$TRANSIENT_FILES_DIR/pid"
+readonly STOPPED_FLAG_FILE="$TRANSIENT_FILES_DIR/stopped"

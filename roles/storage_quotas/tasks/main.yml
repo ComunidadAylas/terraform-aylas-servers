@@ -1,0 +1,59 @@
+- name: Install quota tools
+  become: true
+  ansible.builtin.apt:
+    package: quota
+    install_recommends: false
+
+- name: Enable group quotas for root filesystem
+  become: true
+  notify: Reboot
+  register: quota_flags
+  ansible.posix.mount:
+    src: LABEL=cloudimg-rootfs
+    fstype: ext4
+    path: /
+    opts: discard,errors=remount-ro,jqfmt=vfsv1,grpjquota=group.quota
+    state: present
+
+- name: Install quota kernel modules
+  become: true
+  ansible.builtin.apt:
+    package: "{{ quota_kernel_modules_package }}"
+    install_recommends: false
+
+- name: Prevent Oracle kernel updates to ensure quota modules compatibility
+  become: true
+  when: pin_oracle_kernel_version
+  loop:
+    - linux-oracle
+    - linux-image-oracle
+    - linux-headers-oracle
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+
+# If a reboot is pending due to changing filesystem mount flags,
+# we need to do it now to be able to configure quotas
+- name: Flush pending handlers
+  when: quota_flags.changed # noqa: no-handler
+  ansible.builtin.meta: flush_handlers
+
+- name: Set up quota files
+  become: true
+  ansible.builtin.systemd_service:
+    name: quota
+    state: started
+    enabled: true
+
+- name: Activate quota accounting
+  become: true
+  ansible.builtin.systemd_service:
+    name: quotaon
+    state: started
+    enabled: true
+
+- name: Set up quota limits for groups
+  become: true
+  loop: "{{ group_quotas }}"
+  changed_when: true
+  ansible.builtin.command: setquota -g {{ item.name }} {{ item.limits }} -a

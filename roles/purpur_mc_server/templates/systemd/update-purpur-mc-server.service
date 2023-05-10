@@ -1,0 +1,11 @@
+[Unit]
+Description="Update Purpur Minecraft server"
+
+[Service]
+Type=oneshot
+# Send update signal
+ExecStart=/bin/sh -c '. ~/.local/bin/server_ipc_vars; controller_pid=$(cat "$PID_FILE_PATH"); kill -s USR2 "$controller_pid"'
+# Send next stop is restart signal
+ExecStart=/bin/sh -c '. ~/.local/bin/server_ipc_vars; controller_pid=$(cat "$PID_FILE_PATH"); kill -s PWR "$controller_pid"'
+# Gracefully stop server
+ExecStart=/usr/bin/rconclt server stop

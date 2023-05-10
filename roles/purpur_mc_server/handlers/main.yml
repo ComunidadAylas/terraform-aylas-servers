@@ -1,0 +1,4 @@
+- name: Persist iptables configuration
+  become: true
+  changed_when: true
+  ansible.builtin.command: netfilter-persistent save

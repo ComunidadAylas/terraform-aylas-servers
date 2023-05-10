@@ -1,0 +1,82 @@
+- name: Install duplicity
+  become: true
+  ansible.builtin.apt:
+    package:
+      - duplicity
+      # Necessary to use the par2 wrapper backend
+      - par2
+      - python3-pexpect
+    install_recommends: false
+
+- name: Install MEGAcmd tools
+  become: true
+  # Updating this cache is necessary to properly resolve dynamic objects.
+  # See: https://man7.org/linux/man-pages/man8/ld.so.8.html
+  notify: Update dynamic linker shared objects cache
+  ansible.builtin.apt:
+    deb: https://raw.githubusercontent.com/ComunidadAylas/terraform-aylas-servers/master/vendor/megacmd/megacmd_arm64.deb
+
+- name: Ensure that backup collection owner group exists
+  become: true
+  ansible.builtin.group:
+    name: backup
+
+- name: Create backup collection configuration files directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/duplicity
+    state: directory
+    owner: root
+    group: backup
+    mode: u=rwx,g=rwx,o=
+
+- name: Create local backup collections directory
+  become: true
+  ansible.builtin.file:
+    path: /backups
+    state: directory
+    owner: root
+    group: backup
+    mode: u=rwx,g=rwx,o=
+
+- name: Create local backup directory for each collection
+  become: true
+  loop: "{{ backup_collections }}"
+  ansible.builtin.file:
+    path: /backups/{{ item.identifier }}
+    state: directory
+    owner: root
+    group: backup
+    mode: u=rwx,g=rwxs,o=
+
+- name: Create backup collection configuration files
+  become: true
+  loop: "{{ backup_collections }}"
+  ansible.builtin.template:
+    src: duplicity_config.json
+    dest: /etc/duplicity/{{ item.identifier }}.json
+    owner: root
+    group: backup
+    mode: u=r,g=r,o=
+
+- name: Copy backup management script
+  become: true
+  ansible.builtin.template:
+    src: backctl
+    dest: /usr/sbin/backctl
+    owner: root
+    group: backup
+    mode: u=rwx,g=rwx,o=rx
+
+- name: Allow users to run backctl as root
+  become: true
+  loop: "{{ backup_collections }}"
+  when: item.allow_sudo_backctl is defined
+  ansible.builtin.copy:
+    content: >
+      {{ item.allow_sudo_backctl.from }} ALL=(root) TIMEOUT=2h NOPASSWD:
+      /usr/sbin/backctl -i {{ item.identifier }} -d {{ item.allow_sudo_backctl.for_directory }} *
+    dest: /etc/sudoers.d/200-{{ item.identifier }}-backctl
+    owner: root
+    group: root
+    mode: u=rw,g=rw,o=

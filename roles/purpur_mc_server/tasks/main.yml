@@ -1,0 +1,259 @@
+- name: "Configure server user: {{ user }}"
+  become: true
+  ansible.builtin.user:
+    name: "{{ user }}"
+    group: "{{ user }}"
+    # pri=-10 is read by the pam_umask module to set the default process
+    # niceness. That module is executed for every login as this user
+    comment: Minecraft server user,pri=-5
+    shell: /usr/sbin/nologin
+    move_home: true
+    create_home: true
+    generate_ssh_key: "{{ tf_provisioner_run is defined }}"
+    ssh_key_comment: "{{ user }}@{{ inventory_hostname }}"
+    password: "!"
+
+- name: Add master user to server user group
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: "{{ user }}"
+    append: true
+
+- name: Register generated public key as authorized for server user SSH login
+  become: true
+  when: tf_provisioner_run is defined
+  ansible.builtin.file:
+    path: /home/{{ user }}/.ssh/authorized_keys
+    src: /home/{{ user }}/.ssh/id_rsa.pub
+    state: link
+
+- name: Retrieve server user SSH login private key
+  become: true
+  when: tf_provisioner_run is defined
+  ansible.builtin.fetch:
+    src: /home/{{ user }}/.ssh/id_rsa
+    dest: login_keys
+    fail_on_missing: false
+
+- name: Delete server user SSH login private key
+  become: true
+  when: tf_provisioner_run is defined
+  ansible.builtin.file:
+    path: /home/{{ user }}/.ssh/id_rsa
+    state: absent
+
+- name: "Create server directory: {{ directory }}"
+  become: true
+  ansible.builtin.file:
+    path: "{{ directory }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=rwx,g=rwxs,o=
+
+- name: Install Java {{ java_version }}
+  become: true
+  ansible.builtin.apt:
+    package:
+      - openjdk-{{ java_version }}-jre-headless
+      # The server profiler recommends having debug symbols available
+      - openjdk-{{ java_version }}-dbg
+    install_recommends: false
+
+- name: Create mc_version file
+  become: true
+  ansible.builtin.copy:
+    content: |
+      # Minecraft version file.
+      #
+      # When the version indicated in this file changes, the server
+      # controller will do the following before starting the server for the
+      # next time:
+      #
+      # - Do a full backup, removing previous incremental backups (so data
+      #   contained in those incremental backups since the last full backup
+      #   will be lost).
+      # - Download the latest Purpur launcher for the specified Minecraft
+      #   version.
+      #
+      # If this file is deleted, automatic Purpur updates won't execute.
+      #
+      # Lines that begin with # are comments. Any content lines following
+      # the first non-comment line will be ignored.
+      {{ default_minecraft_version }}
+    dest: "{{ directory }}/mc_version"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=rw,g=rw,o=
+    force: false
+
+- name: Accept Minecraft server EULA
+  become: true
+  community.general.ini_file:
+    path: "{{ directory }}/eula.txt"
+    option: eula
+    value: "true"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=r,g=r,o=
+
+- name: Remove immutable attribute from server restart script
+  become: true
+  failed_when: false # Ignore files that do not exist
+  ansible.builtin.file:
+    path: "{{ directory }}/restart.sh"
+    state: file
+    attributes: -i
+
+- name: Copy server restart script
+  become: true
+  ansible.builtin.copy:
+    content: |
+      #!/bin/sh -e
+      . ~/.local/bin/server_ipc_vars
+      controller_pid=$(cat "$PID_FILE_PATH")
+      kill -s PWR "$controller_pid"
+    dest: "{{ directory }}/restart.sh"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=rx,g=rx,o=
+    attributes: i
+
+- name: Install server controller dependencies
+  become: true
+  ansible.builtin.apt:
+    package:
+      - rcon
+      - curl
+      - jq
+    install_recommends: false
+
+- name: Remove immutable attribute from server control scripts
+  become: true
+  loop:
+    - server_ipc_vars
+    - server_controller.sh
+  failed_when: false # Ignore files that do not exist
+  ansible.builtin.file:
+    path: "/home/{{ user }}/.local/bin/{{ item }}"
+    state: file
+    attributes: -i
+
+- name: Create server user local binaries directory
+  become: true
+  ansible.builtin.file:
+    path: /home/{{ user }}/.local/bin
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=rwx,g=rwx,o=
+
+- name: Copy server control scripts
+  become: true
+  loop:
+    - name: server_ipc_vars
+      permissions: r
+    - name: server_controller.sh
+      permissions: rx
+  ansible.builtin.template:
+    src: "{{ item.name }}"
+    dest: /home/{{ user }}/.local/bin/{{ item.name }}
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u={{ item.permissions }},g={{ item.permissions }},o=
+    # A Minecraft server with plugins may execute arbitrary code.
+    # Protect critical files to shield ourselves against rogue plugins
+    attributes: i
+
+- name: Enable systemd unit lingering for server user
+  become: true
+  changed_when: true
+  ansible.builtin.command: loginctl enable-linger '{{ user }}'
+
+- name: Create server user systemd user unit directory
+  become: true
+  ansible.builtin.file:
+    path: /home/{{ user }}/.config/systemd/user
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=rwx,g=rwx,o=
+
+- name: Remove immutable attribute from server systemd user units
+  become: true
+  loop:
+    - purpur-mc-server.service
+    - update-purpur-mc-server.timer
+    - update-purpur-mc-server.service
+    - backup-and-update-purpur-mc-server.timer
+    - backup-and-update-purpur-mc-server.service
+  failed_when: false # Ignore files that do not exist
+  ansible.builtin.file:
+    path: /home/{{ user }}/.config/systemd/user/{{ item }}
+    state: file
+    attributes: -i
+
+- name: Copy server systemd user units
+  become: true
+  loop:
+    - purpur-mc-server.service
+    - update-purpur-mc-server.timer
+    - update-purpur-mc-server.service
+    - backup-and-update-purpur-mc-server.timer
+    - backup-and-update-purpur-mc-server.service
+  ansible.builtin.template:
+    src: systemd/{{ item }}
+    dest: /home/{{ user }}/.config/systemd/user/{{ item }}
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=r,g=r,o=
+    attributes: i
+
+- name: Start and enable server systemd user services
+  become: true
+  become_user: "{{ user }}"
+  loop:
+    - purpur-mc-server.service
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+    scope: user
+    daemon_reload: true
+
+- name: Enable server systemd user timers
+  become: true
+  become_user: "{{ user }}"
+  loop:
+    - update-purpur-mc-server.timer
+    - backup-and-update-purpur-mc-server.timer
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    scope: user
+    daemon_reload: true
+
+- name: Allow incoming TCP connections to extra public Minecraft server services
+  become: true
+  notify: Persist iptables configuration
+  when: extra_services is defined
+  loop: "{{ extra_services }}"
+  ansible.builtin.iptables:
+    chain: INPUT
+    ctstate: NEW
+    protocol: tcp
+    destination_port: "{{ item.port }}"
+    jump: ACCEPT
+    action: insert
+
+- name: Allow incoming TCP connections to Minecraft server
+  become: true
+  notify: Persist iptables configuration
+  ansible.builtin.iptables:
+    chain: INPUT
+    ctstate: NEW
+    protocol: tcp
+    destination_port: "{{ server_port }}"
+    jump: ACCEPT
+    action: insert

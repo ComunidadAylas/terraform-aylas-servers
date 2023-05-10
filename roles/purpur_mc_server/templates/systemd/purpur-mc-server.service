@@ -1,0 +1,11 @@
+[Unit]
+Description="Purpur Minecraft server"
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/tmux new-session -Ad -s purpur-mc-server -n 'MC server console' -c '{{ directory }}' /bin/sh -c 'exec ~/.local/bin/server_controller.sh'
+ExecStop=-/bin/sh -ce '. ~/.local/bin/server_ipc_vars; rconclt server stop; while ! [ -f "$STOPPED_FLAG_FILE" ]; do sleep 1; done'
+Restart=always
+
+[Install]
+WantedBy=default.target
