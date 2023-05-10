@@ -86,14 +86,14 @@ improvements, or use parts of our configuration in your own deployments!
   tier](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm),
   you can get all of this for free!*
 
-<small>\* If you are over legal age, and willing to give Oracle accurate contact
+<sup><sub>\* If you are over legal age, and willing to give Oracle accurate contact
 information and your credit card number during registration. Virtual cards are
 not accepted. Always Free resources may not be always available in all regions,
 and they can only be deployed to your home region, which is chosen when signing
 up and can't be changed. Oracle ~~is evil~~ may change these conditions in the
 future. We don't expect to contact their support for anything. Abusive usage of
 these resources may cause account termination. Apart from than that, we're not
-aware of any other fine print in their conditions.</small>
+aware of any other fine print in their conditions.</sup></sub>
 
 # 📥 Getting started
 
