@@ -168,7 +168,7 @@ resource "oci_core_instance" "aylas-one" {
   availability_domain = var.availability_domain
   metadata = {
     "ssh_authorized_keys" = var.master_user_public_ssh_key
-    "user_data"           = base64encode(templatefile("init/cloud-config", { ssh_port = var.ssh_port }))
+    "user_data"           = base64encode(templatefile("data/cloud-config", { ssh_port = var.ssh_port }))
   }
   compartment_id = var.compartment_id
 
