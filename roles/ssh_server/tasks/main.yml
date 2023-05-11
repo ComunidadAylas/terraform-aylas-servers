@@ -56,7 +56,7 @@
     insertafter: EOF
 
 # An usual login shell would allow forwarding and file transfers
-# anyway because users can run arbitrary programs to achieve effect.
+# anyway because users can run arbitrary programs to that effect.
 # However, disabling them when a restricted shell is being forced
 # actually prevents such operations from taking place. Also, forcing
 # a command effectively disables SFTP and running arbitrary programs
@@ -130,7 +130,7 @@
   ansible.builtin.user:
     name: "{{ item.name }}"
     group: "{{ item.group }}"
-    # pri=-10 is read by the pam_umask module to set the default process
+    # pri=5 is read by the pam_umask module to set the default process
     # niceness. That module is executed for every login as this user
     comment: SFTP-only user,pri=5
     shell: /usr/sbin/nologin

@@ -3,7 +3,7 @@
   ansible.builtin.user:
     name: "{{ user }}"
     group: "{{ user }}"
-    # pri=-10 is read by the pam_umask module to set the default process
+    # pri=-5 is read by the pam_umask module to set the default process
     # niceness. That module is executed for every login as this user
     comment: Minecraft server user,pri=-5
     shell: /usr/sbin/nologin
