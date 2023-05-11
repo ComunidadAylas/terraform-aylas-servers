@@ -49,14 +49,29 @@
     group: "{{ item }}"
     mode: u=rwx,g=rwx,o=rx
 
+- name: Remove immutable attribute from tmux user configuration
+  become: true
+  failed_when: false # Ignore files that do not exist
+  loop: "{{ users }}"
+  ansible.builtin.file:
+    path: /home/{{ item }}/.config/tmux/tmux.conf
+    state: file
+    attributes: -i
+
 - name: Set tmux user configuration
   become: true
   loop: "{{ users }}"
   ansible.builtin.copy:
     content: |
       # Disable any operations but detaching with Ctrl + C
+      # and scrolling with copy mode
       unbind-key -a
+      unbind-key -n -a
       bind-key -n C-c detach
+      bind-key -n PageUp copy-mode -eu
+      # Enable mouse and its usage for entering copy mode
+      set-option -g mouse on
+      bind-key -n WheelUpPane copy-mode -eu
       # Customize status bar appearance
       set-option -g status-left ''
       set-option -g status-right '#(uptime)'
