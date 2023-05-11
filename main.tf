@@ -115,7 +115,7 @@ resource "oci_core_default_security_list" "aylas-net-security-list" {
     }
   }
   ingress_security_rules {
-    description = "Dynmap HTTP server ingress traffic"
+    description = "Web map HTTP server ingress traffic"
     protocol    = "6"
     source      = "0.0.0.0/0"
     stateless   = "true"

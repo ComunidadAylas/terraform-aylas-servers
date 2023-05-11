@@ -18,7 +18,7 @@
         directory: /srv/khron
         server_port: 25565
         extra_services:
-          # Internal Dynmap HTTP server
+          # Internal web map HTTP server
           - port: 8123
         default_minecraft_version: 1.19.4
         rcon_port: 25575
