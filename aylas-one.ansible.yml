@@ -16,7 +16,7 @@
       vars:
         user: khron
         directory: /srv/khron
-        server_port: 25565
+        server_port: 25545
         extra_services:
           # Internal web map HTTP server
           - port: 8123

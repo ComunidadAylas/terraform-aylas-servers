@@ -110,8 +110,8 @@ resource "oci_core_default_security_list" "aylas-net-security-list" {
     source      = "0.0.0.0/0"
     stateless   = "true"
     tcp_options {
-      max = "25565"
-      min = "25565"
+      max = "25545"
+      min = "25545"
     }
   }
   ingress_security_rules {
