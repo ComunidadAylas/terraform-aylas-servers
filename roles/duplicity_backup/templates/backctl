@@ -104,12 +104,10 @@ case "$1" in
       read -r confirmation
       case "$confirmation" in
         y|Y)
-          echo "$FILES_TO_EXCLUDE" | \
-            duplicity restore ${DUPLICITY_VERBOSE:+-vinfo} --force --progress \
-            ${file_to_restore:+--file-to-restore "$file_to_restore"} \
-            ${point_in_time:+--restore-time "$point_in_time"} \
-            ${FILES_TO_EXCLUDE:+--exclude-filelist /proc/self/fd/0} \
-            "$TARGET_URL" "$DIRECTORY"${file_to_restore:+/"$file_to_restore"}
+          duplicity restore ${DUPLICITY_VERBOSE:+-vinfo} --force --progress \
+          ${file_to_restore:+--file-to-restore "$file_to_restore"} \
+          ${point_in_time:+--restore-time "$point_in_time"} \
+          "$TARGET_URL" "$DIRECTORY"${file_to_restore:+/"$file_to_restore"}
 
           ! if [ -n "$file_to_restore" ]; then
             printf 'Do you want to restore another file? (y/n): '
