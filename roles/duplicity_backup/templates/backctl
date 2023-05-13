@@ -88,6 +88,7 @@ case "$1" in
       echo '- Relative file path to restore'
       echo '  Can be a directory to restore it and its contents'
       echo "  Leave blank to restore all files on $DIRECTORY"
+      echo "  Example: world -> restore the world directory or file at $DIRECTORY/world"
       printf 'Relative file path to restore: '
       read -r file_to_restore
 
