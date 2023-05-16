@@ -114,14 +114,22 @@ resource "oci_core_default_security_list" "aylas-net-security-list" {
       min = "25545"
     }
   }
-  ingress_security_rules {
-    description = "Web map HTTP server ingress traffic"
-    protocol    = "6"
-    source      = "0.0.0.0/0"
-    stateless   = "true"
-    tcp_options {
-      max = "8123"
-      min = "8123"
+  dynamic "ingress_security_rules" {
+    # Cloudflare IP ranges: https://www.cloudflare.com/ips-v4
+    for_each = [
+      "173.245.48.0/20", "103.21.244.0/22", "103.22.200.0/22", "103.31.4.0/22", "141.101.64.0/18",
+      "108.162.192.0/18", "190.93.240.0/20", "188.114.96.0/20", "197.234.240.0/22", "198.41.128.0/17",
+      "162.158.0.0/15", "104.16.0.0/13", "104.24.0.0/14", "172.64.0.0/13", "131.0.72.0/22"
+    ]
+    content {
+      description = "Web map HTTP server ingress traffic"
+      protocol    = "6"
+      source      = ingress_security_rules.value
+      stateless   = "true"
+      tcp_options {
+        max = "8123"
+        min = "8123"
+      }
     }
   }
   manage_default_resource_id = oci_core_vcn.aylas-net.default_security_list_id
