@@ -6,8 +6,8 @@
   # apt update may temporarily fail on instances that were just created
   retries: 6
   delay: 5
-  register: apt_update
-  until: apt_update is success
+  register: common_apt_update
+  until: common_apt_update is success
   ansible.builtin.apt:
     package:
       - vim
@@ -71,13 +71,13 @@
     autoremove: true
 
 - name: Get list of installed libraries
-  register: aptitude_search
+  register: common_aptitude_search
   changed_when: false
   when: tf_provisioner_run is defined
   ansible.builtin.command: aptitude search -F '%p' '?section (libs) ?installed'
 
 - name: Mark all libraries as automatically installed
-  loop: "{{ aptitude_search.stdout.split('\n') }}"
+  loop: "{{ common_aptitude_search.stdout.split('\n') }}"
   become: true
   changed_when: true
   when: tf_provisioner_run is defined

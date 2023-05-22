@@ -7,7 +7,7 @@
 - name: Enable group quotas for root filesystem
   become: true
   notify: Reboot
-  register: quota_flags
+  register: storage_quotas_quota_flags
   ansible.posix.mount:
     src: LABEL=cloudimg-rootfs
     fstype: ext4
@@ -35,7 +35,7 @@
 # If a reboot is pending due to changing filesystem mount flags,
 # we need to do it now to be able to configure quotas
 - name: Flush pending handlers
-  when: quota_flags.changed # noqa: no-handler
+  when: storage_quotas_quota_flags.changed # noqa: no-handler
   ansible.builtin.meta: flush_handlers
 
 - name: Set up quota files
