@@ -13,6 +13,7 @@
       - vim
       - less
       - aptitude
+      - unzip
       # machinectl is useful to login as other users with a fully initialized
       # systemd environment
       - systemd-container
