@@ -24,7 +24,9 @@
         rcon_port: 25575
         rcon_password: "{{ lookup('ansible.builtin.password', '/dev/null', seed='khron' ~ inventory_hostname) }}"
         java_version: 19
-        java_vm_memory: "4G"
+        java_vm_heap_memory: "3584M"
+        cgroup_high_memory: "4864M"
+        cgroup_max_memory: "5G"
         discord_notifications:
           # Generated with:
           # $ ansible-vault encrypt_string --vault-password-file secrets/vault_password --stdin-name 'webhook_url'

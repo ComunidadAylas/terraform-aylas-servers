@@ -98,6 +98,23 @@
     group: "{{ user }}"
     mode: u=r,g=r,o=
 
+- name: Copy Minecraft server AppArmor profile
+  become: true
+  register: purpur_mc_server_apparmor_profile
+  ansible.builtin.template:
+    src: apparmor/purpur-mc-server
+    dest: /etc/apparmor.d/{{ user }}-purpur-mc-server
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Reload AppArmor profiles
+  become: true
+  when: purpur_mc_server_apparmor_profile.changed # noqa: no-handler
+  ansible.builtin.systemd_service:
+    name: apparmor
+    state: reloaded
+
 - name: Remove immutable attribute from server restart script
   become: true
   failed_when: false # Ignore files that do not exist
@@ -129,17 +146,6 @@
       - jq
     install_recommends: false
 
-- name: Remove immutable attribute from server control scripts
-  become: true
-  loop:
-    - server_ipc_vars
-    - server_controller.sh
-  failed_when: false # Ignore files that do not exist
-  ansible.builtin.file:
-    path: "/home/{{ user }}/.local/bin/{{ item }}"
-    state: file
-    attributes: -i
-
 - name: Create server user local binaries directory
   become: true
   ansible.builtin.file:
@@ -162,9 +168,6 @@
     owner: "{{ user }}"
     group: "{{ user }}"
     mode: u={{ item.permissions }},g={{ item.permissions }},o=
-    # A Minecraft server with plugins may execute arbitrary code.
-    # Protect critical files to shield ourselves against rogue plugins
-    attributes: i
 
 - name: Enable systemd unit lingering for server user
   become: true
@@ -180,20 +183,6 @@
     group: "{{ user }}"
     mode: u=rwx,g=rwx,o=
 
-- name: Remove immutable attribute from server systemd user units
-  become: true
-  loop:
-    - purpur-mc-server.service
-    - update-purpur-mc-server.timer
-    - update-purpur-mc-server.service
-    - backup-and-update-purpur-mc-server.timer
-    - backup-and-update-purpur-mc-server.service
-  failed_when: false # Ignore files that do not exist
-  ansible.builtin.file:
-    path: /home/{{ user }}/.config/systemd/user/{{ item }}
-    state: file
-    attributes: -i
-
 - name: Copy server systemd user units
   become: true
   loop:
@@ -208,7 +197,6 @@
     owner: "{{ user }}"
     group: "{{ user }}"
     mode: u=r,g=r,o=
-    attributes: i
 
 - name: Start and enable server systemd user services
   become: true

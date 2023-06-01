@@ -49,15 +49,6 @@
     group: "{{ item }}"
     mode: u=rwx,g=rwx,o=rx
 
-- name: Remove immutable attribute from tmux user configuration
-  become: true
-  failed_when: false # Ignore files that do not exist
-  loop: "{{ users }}"
-  ansible.builtin.file:
-    path: /home/{{ item }}/.config/tmux/tmux.conf
-    state: file
-    attributes: -i
-
 - name: Set tmux user configuration
   become: true
   loop: "{{ users }}"
@@ -80,4 +71,3 @@
     owner: "{{ item }}"
     group: "{{ item }}"
     mode: u=r,g=r,o=r
-    attributes: i

@@ -225,7 +225,8 @@ while true; do
   rm -f "$STOPPED_FLAG_FILE"
 
   status_code=0
-  java '-Xmx{{ java_vm_memory }}' '-Xms{{ java_vm_memory }}' \
+  aa-exec --profile='{{ user }}-purpur-mc-server' \
+    java '-Xmx{{ java_vm_heap_memory }}' '-Xms{{ java_vm_heap_memory }}' \
     -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions \
     -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 \
     -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 \

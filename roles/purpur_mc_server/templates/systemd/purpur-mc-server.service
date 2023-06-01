@@ -7,5 +7,17 @@ ExecStart=/usr/bin/tmux new-session -Ad -s purpur-mc-server -n 'MC server consol
 ExecStop=-/bin/sh -ce '. ~/.local/bin/server_ipc_vars; rconclt server stop; while ! [ -f "$STOPPED_FLAG_FILE" ]; do sleep 1; done'
 Restart=always
 
+TasksMax=1024
+
+MemoryHigh={{ cgroup_high_memory }}
+MemoryMax={{ cgroup_max_memory }}
+
+SocketBindAllow=tcp:{{ server_port }}
+SocketBindAllow=tcp:{{ rcon_port }}
+{% for extra_service in extra_services %}
+SocketBindAllow=tcp:{{ extra_service.port }}
+{% endfor %}
+SocketBindDeny=any
+
 [Install]
 WantedBy=default.target
