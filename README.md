@@ -77,6 +77,9 @@ improvements, or use parts of our configuration in your own deployments!
     effective defense against the log spam and waste of CPU cycles caused by the
     mass SSH scans that plague the Internet with a minimal impact on usability
     and availability.
+- 🛡️ **Game server hardening** based on [**AppArmor**](https://apparmor.net/),
+  which implements mandatory access control mechanisms used to prevent
+  unexpected server behavior in an easy-to-manage manner.
 - 🆕 **Automated** daily system and server software **updates**.
 - 🚨 The `ttyAMA0` serial console is set up for [**out-of-band
   management**](https://en.wikipedia.org/wiki/Out-of-band_management), ensuring
