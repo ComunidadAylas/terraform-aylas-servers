@@ -2,7 +2,7 @@
 Description="Backup and update Purpur Minecraft server"
 
 [Timer]
-OnCalendar=Mon,Wed,Fri,Sun *-*-* 04:00:00
+OnCalendar=Mon,Fri *-*-* 04:00:00
 Persistent=true
 
 [Install]

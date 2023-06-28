@@ -2,7 +2,7 @@
 Description="Update Purpur Minecraft server"
 
 [Timer]
-OnCalendar=Tue,Thu,Sat *-*-* 04:00:00
+OnCalendar=Tue,Wed,Thu,Sat,Sun *-*-* 04:00:00
 Persistent=true
 
 [Install]
