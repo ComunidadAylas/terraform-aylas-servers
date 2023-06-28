@@ -68,6 +68,6 @@
           - name: khron
             limits: 10G 12G 0 0
           - name: backup
-            limits: 20G 25G 0 0
+            limits: 18G 20G 0 0
 
     - common_post
