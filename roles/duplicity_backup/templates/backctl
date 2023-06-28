@@ -75,12 +75,14 @@ case "$1" in
     echo "$FILES_TO_EXCLUDE" | \
       duplicity ${DUPLICITY_VERBOSE:+-vinfo} --progress --volsize $VOLSIZE \
       ${FILES_TO_EXCLUDE:+--exclude-filelist /proc/self/fd/0} \
+      --par2-redundancy 5 \
       "$DIRECTORY" "$TARGET_URL";;
 
   full_and_clear_all_incrementals)
     echo "$FILES_TO_EXCLUDE" | \
       duplicity full ${DUPLICITY_VERBOSE:+-vinfo} --progress --volsize $VOLSIZE \
       ${FILES_TO_EXCLUDE:+--exclude-filelist /proc/self/fd/0} \
+      --par2-redundancy 5 \
       "$DIRECTORY" "$TARGET_URL"
     duplicity remove-all-inc-of-but-n-full 1 ${DUPLICITY_VERBOSE:+-vinfo} --force --progress "$TARGET_URL";;
 
