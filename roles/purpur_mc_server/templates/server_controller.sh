@@ -48,6 +48,18 @@ readonly UPDATE_AT_NEXT_START_FLAG_FILE="$STATE_FILES_DIR/update"
 
 # ---
 
+readonly EXTRA_BACKUP_EXCLUDE_FILE_LIST="$(
+cat <<'EXTRA_BACKUP_EXCLUDE_FILE_LIST'
+{% if backup_exclude_file_list is defined %}
+{{ backup_exclude_file_list }}
+{% endif %}
+EXTRA_BACKUP_EXCLUDE_FILE_LIST
+)"
+
+readonly BACKUP_EXCLUDE_FILE_LIST="$(printf '%s\n%s' "$PWD/restart.sh" "$EXTRA_BACKUP_EXCLUDE_FILE_LIST")"
+
+# ---
+
 atomic_rename_successor_file() {
   # The syncfs() call is needed to avoid moving a corrupt new file
   # in some cases. Related read: https://lwn.net/Articles/789600/
@@ -166,9 +178,9 @@ while true; do
 
     unset backup_failed
     if is_current_mc_version_defined_and_different "$mc_version" "$last_mc_version"; then
-      sudo backctl -i '{{ user }}' -d "$PWD" -e "$PWD/restart.sh" full_and_clear_all_incrementals
+      sudo backctl -i '{{ user }}' -d "$PWD" -e "$BACKUP_EXCLUDE_FILE_LIST" full_and_clear_all_incrementals
     else
-      sudo backctl -i '{{ user }}' -d "$PWD" -e "$PWD/restart.sh" incremental
+      sudo backctl -i '{{ user }}' -d "$PWD" -e "$BACKUP_EXCLUDE_FILE_LIST" incremental
     fi > "$backctl_output" 2>&1 || backup_failed=1
 
     wait
@@ -246,7 +258,7 @@ while true; do
       read -r action
       case "$action" in
         rollback)
-          sudo backctl -i '{{ user }}' -d "$PWD" -e "$PWD/restart.sh" interactive_restore || true;;
+          sudo backctl -i '{{ user }}' -d "$PWD" -e "$BACKUP_EXCLUDE_FILE_LIST" interactive_restore || true;;
         *) false;;
       esac
     do
