@@ -64,4 +64,4 @@ jobs:
         run: pip install --no-deps -r requirements.txt
 
       - name: 🔍 Run ansible-lint
-        run: ansible-lint
+        run: ansible-lint .
