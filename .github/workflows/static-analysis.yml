@@ -70,7 +70,7 @@ jobs:
           echo "$ANSIBLE_VAULT_PASSWORD" > secrets/vault_password
 
       - name: 🧰 Install Poetry dependencies
-        run: poetry install
+        run: poetry install --ansi
 
       - name: 🔍 Run ansible-lint
         run: ansible-lint .
