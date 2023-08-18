@@ -50,11 +50,8 @@ jobs:
       - name: 📥 Checkout source
         uses: actions/checkout@v3
 
-      - name: 🧰 Set up Python
-        uses: actions/setup-python@v4
-        with:
-          cache: pip
-          cache-dependency-path: requirements.txt
+      - name: 🧰 Set up Poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
 
       - name: ⚙️ Create Ansible Vault password file
         env:
@@ -63,8 +60,8 @@ jobs:
           mkdir secrets
           echo "$ANSIBLE_VAULT_PASSWORD" > secrets/vault_password
 
-      - name: 🧰 Install ansible-lint
-        run: pip install --no-deps -r requirements.txt
+      - name: 🧰 Install Poetry dependencies
+        run: poetry install
 
       - name: 🔍 Run ansible-lint
         run: ansible-lint .

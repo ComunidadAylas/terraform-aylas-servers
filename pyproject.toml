@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "terraform-aylas-servers"
+version = "0.1.0"
+description = "Terraform and Ansible artifacts to manage the Aylas Community server infrastructure configuration"
+authors = ["Alejandro González <me@alegon.dev>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "terraform_aylas_servers"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+ansible = "^8.3.0"
+oci-cli = "^3.31.0"
+ansible-lint = { version = "^6.17.0", markers = "platform_system != 'Windows'" }
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

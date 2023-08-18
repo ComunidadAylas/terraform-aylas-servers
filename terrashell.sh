@@ -15,8 +15,8 @@ echo '> Setting up Python virtual environment...'
 python3 -m venv "$WORKDIR"/venv
 # shellcheck disable=SC1091
 . "$WORKDIR"/venv/bin/activate
-# The --no-deps parameter allows a workaround for https://github.com/oracle/oci-cli/issues/697
-pip install --no-deps -r requirements.txt
+pip install poetry
+poetry install
 
 echo
 echo "> Downloading Terraform v$TERRAFORM_VERSION..."
