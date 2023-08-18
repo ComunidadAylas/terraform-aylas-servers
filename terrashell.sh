@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
-readonly TERRAFORM_VERSION=1.4.6
+readonly TERRAFORM_VERSION=1.5.5
+readonly OCI_TENANCY_REGION=eu-madrid-1
 
 WORKDIR="$(mktemp --tmpdir --directory terraform-aylas.XXX)"
 readonly WORKDIR
@@ -13,7 +14,8 @@ echo '> Setting up Python virtual environment...'
 python3 -m venv "$WORKDIR"/venv
 # shellcheck disable=SC1091
 . "$WORKDIR"/venv/bin/activate
-pip install -r requirements.txt
+# The --no-deps parameter allows a workaround for https://github.com/oracle/oci-cli/issues/697
+pip install --no-deps -r requirements.txt
 
 echo
 echo "> Downloading Terraform v$TERRAFORM_VERSION..."
@@ -23,7 +25,7 @@ chmod +x "$WORKDIR"/terraform
 
 echo
 echo '> Authenticating with OCI...'
-oci session authenticate --profile-name terraform-aylas --region eu-madrid-1
+oci session authenticate --profile-name terraform-aylas --region "$OCI_TENANCY_REGION"
 
 echo
 echo '> Initializing Terraform...'
@@ -36,6 +38,6 @@ echo ' - terraform validate'
 echo ' - terraform apply -auto-approve (create and start instances)'
 echo ' - terraform destroy (stop and tear down instances)'
 echo ' - terraform output aylas-one-ip (get the aylas-one server public IP)'
-echo ' - oci session authenticate --profile-name terraform-aylas --region eu-madrid-1 (authenticate with OCI again)'
+echo " - oci session authenticate --profile-name terraform-aylas --region $OCI_TENANCY_REGION (authenticate with OCI again)"
 
 exec "$SHELL"
