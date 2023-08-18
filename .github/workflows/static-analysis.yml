@@ -47,11 +47,11 @@ jobs:
       - name: 📥 Checkout source
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: 🧰 Set up Python
         uses: actions/setup-python@v4
         with:
           cache: pip
-          cache-dependency-path: ansible-lint-requirements.txt
+          cache-dependency-path: requirements.txt
 
       - name: ⚙️ Create Ansible Vault password file
         env:
@@ -61,7 +61,7 @@ jobs:
           echo "$ANSIBLE_VAULT_PASSWORD" > secrets/vault_password
 
       - name: 🧰 Install ansible-lint
-        run: pip install ansible-lint==6.17.2
+        run: pip install --no-deps -r requirements.txt
 
       - name: 🔍 Run ansible-lint
         run: ansible-lint
