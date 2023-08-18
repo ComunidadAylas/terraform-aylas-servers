@@ -43,9 +43,6 @@ jobs:
     # Exclude in-repo PRs from running this job
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork
 
-    env:
-      ANSIBLE_LINT_COMMIT: 75509b8b7e8d8de3ba491461f5f229411558818b
-
     steps:
       - name: 📥 Checkout source
         uses: actions/checkout@v3
@@ -63,14 +60,8 @@ jobs:
           mkdir secrets
           echo "$ANSIBLE_VAULT_PASSWORD" > secrets/vault_password
 
-      - name: 📥 Download ansible-lint-requirements.txt
-        run: |
-          wget --output-file=ansible-lint-requirements.txt \
-          https://raw.githubusercontent.com/ansible/ansible-lint/${{ env.ANSIBLE_LINT_COMMIT }}/.config/requirements-lock.txt
-
       - name: 🧰 Install ansible-lint
-        run: |
-          pip install "ansible-lint[lock] @ git+https://github.com/ansible/ansible-lint@${{ env.ANSIBLE_LINT_COMMIT }}"
+        run: pip install ansible-lint==6.17.2
 
       - name: 🔍 Run ansible-lint
         run: ansible-lint
