@@ -23,7 +23,7 @@ jobs:
       - name: 🧰 Setup Terraform CLI
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.4.6
+          terraform_version: 1.5.5
           terraform_wrapper: false
 
       - name: ⚙️ Initialize Terraform
@@ -55,4 +55,4 @@ jobs:
           echo "$ANSIBLE_VAULT_PASSWORD" > secrets/vault_password
 
       - name: 🔍 Run ansible-lint
-        uses: ansible/ansible-lint-action@v6
+        uses: ansible/ansible-lint@v6
