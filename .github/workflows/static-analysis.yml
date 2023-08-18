@@ -55,4 +55,4 @@ jobs:
           echo "$ANSIBLE_VAULT_PASSWORD" > secrets/vault_password
 
       - name: 🔍 Run ansible-lint
-        uses: ansible/ansible-lint@v6
+        uses: ansible/ansible-lint@v6.17.2
