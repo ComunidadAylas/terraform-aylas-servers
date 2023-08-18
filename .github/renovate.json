@@ -10,5 +10,16 @@
     "click",
     "circuitbreaker",
     "jmespath"
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "^.github/(?:workflows|actions)/.+\\.ya?ml$",
+        "^terrashell.sh$"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>[^\\s]+?)(?: (?:lookupName|packageName)=(?<packageName>[^\\s]+?))?(?: versioning=(?<versioning>[a-z-0-9]+?))?\\s+(?:readonly\\s+)?[A-Za-z0-9_]+?_VERSION\\s*[:=]\\s*[\"']?(?<currentValue>.+?)[\"']?\\s"
+      ]
+    }
   ]
 }

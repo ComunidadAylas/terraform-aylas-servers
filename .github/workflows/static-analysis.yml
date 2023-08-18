@@ -22,8 +22,11 @@ jobs:
 
       - name: 🧰 Setup Terraform CLI
         uses: hashicorp/setup-terraform@v2
+        env:
+          # renovate: datasource=docker depName=hashicorp/terraform versioning=docker
+          TERRAFORM_VERSION: 1.5.5
         with:
-          terraform_version: 1.5.5
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
           terraform_wrapper: false
 
       - name: ⚙️ Initialize Terraform
