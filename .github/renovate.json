@@ -1,0 +1,14 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base", "schedule:monthly"
+  ],
+  "groupName": "Configuration management dependencies",
+  "description": "oci-cli expects older versions of the dependencies below",
+  "ignoreDeps": [
+    "terminaltables",
+    "click",
+    "circuitbreaker",
+    "jmespath"
+  ]
+}
