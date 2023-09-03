@@ -146,7 +146,7 @@ resource "oci_core_instance" "aylas-one" {
   # ARM Ampere® Altra™ instance
   shape = "VM.Standard.A1.Flex"
   shape_config {
-    memory_in_gbs = "6"
+    memory_in_gbs = "8"
     ocpus         = "2"
   }
   source_details {
