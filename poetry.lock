@@ -2,27 +2,27 @@
 
 [[package]]
 name = "ansible"
-version = "8.3.0"
+version = "8.4.0"
 description = "Radically simple IT automation"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "ansible-8.3.0-py3-none-any.whl", hash = "sha256:f36b6f809743a4bca4c969178c7f4e0a960b2922c6c93ae12c08846e3acddc5a"},
-    {file = "ansible-8.3.0.tar.gz", hash = "sha256:5e58001d7d6dc33e5d156ca343883b613ec988f69364b0a43f7124fe4b5be2f2"},
+    {file = "ansible-8.4.0-py3-none-any.whl", hash = "sha256:d601d89a4306934e7c0aae05195fd72c0719287fde165982d0ebac282b4280f1"},
+    {file = "ansible-8.4.0.tar.gz", hash = "sha256:f33c492690592fad12684e9897f6de2da15c9f6e1ecb79137703a06470af2ce6"},
 ]
 
 [package.dependencies]
-ansible-core = ">=2.15.3,<2.16.0"
+ansible-core = ">=2.15.4,<2.16.0"
 
 [[package]]
 name = "ansible-compat"
-version = "4.1.6"
+version = "4.1.10"
 description = "Ansible compatibility goodies"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "ansible-compat-4.1.6.tar.gz", hash = "sha256:917373025d317d86462b58b2daf6a05fddfdd7b10f45862b0c34e55afdf2d1bb"},
-    {file = "ansible_compat-4.1.6-py3-none-any.whl", hash = "sha256:02a724498b20e6a886ff3a7f9d96858200057e607a691c813ddbf4efba0caf57"},
+    {file = "ansible-compat-4.1.10.tar.gz", hash = "sha256:2be8c7b510d2e15eed1e9ef443209d67d9aec8f427026b88936d4535ff59863d"},
+    {file = "ansible_compat-4.1.10-py3-none-any.whl", hash = "sha256:f09c3137c9f5f65d38caed44f1a1565c0e7170df720d461e76839beda6018edb"},
 ]
 
 [package.dependencies]
@@ -38,13 +38,13 @@ test = ["coverage", "pip-tools", "pytest (>=7.2.0)", "pytest-mock", "pytest-plus
 
 [[package]]
 name = "ansible-core"
-version = "2.15.3"
+version = "2.15.4"
 description = "Radically simple IT automation"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "ansible-core-2.15.3.tar.gz", hash = "sha256:261bc01a15274fc5a6950d5b92b9aa1b7d7c6e8f7543c914505e5bfd9744793a"},
-    {file = "ansible_core-2.15.3-py3-none-any.whl", hash = "sha256:bc2f5ab74e1c81609aaa9bc8f7f92d939d8e1c847923290301231bdf4dadc812"},
+    {file = "ansible-core-2.15.4.tar.gz", hash = "sha256:c1a8aaede985f79e5932ba2163639379f7d8025bfd9b28378db1649a4ef541ed"},
+    {file = "ansible_core-2.15.4-py3-none-any.whl", hash = "sha256:5c57089405406f3004e948127b518b65509e280d524f61f91cc6360303fc388b"},
 ]
 
 [package.dependencies]
@@ -56,17 +56,17 @@ resolvelib = ">=0.5.3,<1.1.0"
 
 [[package]]
 name = "ansible-lint"
-version = "6.18.0"
+version = "6.20.2"
 description = "Checks playbooks for practices and behavior that could potentially be improved"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "ansible-lint-6.18.0.tar.gz", hash = "sha256:54744ee7f8fd0ec38051f0b6df2153523939a391ee4bb48f0885b5fcdd82f9b9"},
-    {file = "ansible_lint-6.18.0-py3-none-any.whl", hash = "sha256:2c5dc2553604503cf46af91226f92394849833bf20bd4d3a170866e1c3a02779"},
+    {file = "ansible-lint-6.20.2.tar.gz", hash = "sha256:13991d1cba5d69e704a0465b8d5f0e082c3c04e7664dedbbd2d9e4ebc6afd745"},
+    {file = "ansible_lint-6.20.2-py3-none-any.whl", hash = "sha256:cce70b26cc146e3414f1bf6783b943dc01a974a1aeb5fdaa8b673a0accbb5519"},
 ]
 
 [package.dependencies]
-ansible-compat = ">=4.0.5"
+ansible-compat = ">=4.1.10"
 ansible-core = ">=2.12.0"
 black = ">=22.8.0"
 filelock = ">=3.3.0"
@@ -82,8 +82,8 @@ wcmatch = ">=8.1.2"
 yamllint = ">=1.30.0"
 
 [package.extras]
-docs = ["mkdocs-ansible[lock] (>=0.1.6)", "pipdeptree (>=2.7.1)"]
-lock = ["ansible-compat (==4.1.7)", "ansible-core (==2.15.3)", "attrs (==23.1.0)", "black (==23.7.0)", "bracex (==2.3.post1)", "certifi (==2023.7.22)", "cffi (==1.15.1)", "charset-normalizer (==3.2.0)", "click (==8.1.7)", "cryptography (==41.0.3)", "filelock (==3.12.2)", "idna (==3.4)", "importlib-resources (==5.0.7)", "jinja2 (==3.1.2)", "jsonschema (==4.19.0)", "jsonschema-specifications (==2023.7.1)", "markdown-it-py (==3.0.0)", "markupsafe (==2.1.3)", "mdurl (==0.1.2)", "mypy-extensions (==1.0.0)", "packaging (==23.1)", "pathspec (==0.11.2)", "platformdirs (==3.10.0)", "pycparser (==2.21)", "pygments (==2.16.1)", "pyyaml (==6.0.1)", "referencing (==0.30.2)", "requests (==2.31.0)", "rich (==13.5.2)", "rpds-py (==0.9.2)", "ruamel-yaml (==0.17.32)", "subprocess-tee (==0.4.1)", "tomli (==2.0.1)", "typing-extensions (==4.7.1)", "urllib3 (==2.0.4)", "wcmatch (==8.4.1)", "yamllint (==1.32.0)"]
+docs = ["mkdocs-ansible[lock] (>=0.2.0)", "pipdeptree (>=2.7.1)"]
+lock = ["ansible-compat (==4.1.10)", "ansible-core (==2.15.4)", "attrs (==23.1.0)", "black (==23.9.1)", "bracex (==2.4)", "certifi (==2023.7.22)", "cffi (==1.16.0)", "charset-normalizer (==3.2.0)", "click (==8.1.7)", "cryptography (==41.0.4)", "filelock (==3.12.4)", "idna (==3.4)", "importlib-resources (==5.0.7)", "jinja2 (==3.1.2)", "jsonschema (==4.19.1)", "jsonschema-specifications (==2023.7.1)", "markdown-it-py (==3.0.0)", "markupsafe (==2.1.3)", "mdurl (==0.1.2)", "mypy-extensions (==1.0.0)", "packaging (==23.1)", "pathspec (==0.11.2)", "platformdirs (==3.10.0)", "pycparser (==2.21)", "pygments (==2.16.1)", "pyyaml (==6.0.1)", "referencing (==0.30.2)", "requests (==2.31.0)", "rich (==13.5.3)", "rpds-py (==0.10.3)", "ruamel-yaml (==0.17.33)", "subprocess-tee (==0.4.1)", "tomli (==2.0.1)", "typing-extensions (==4.8.0)", "urllib3 (==2.0.5)", "wcmatch (==8.5)", "yamllint (==1.32.0)"]
 test = ["black", "coverage-enable-subprocess", "coverage[toml] (>=6.4.4)", "jmespath", "mypy", "netaddr", "psutil", "pylint", "pytest (>=7.2.2)", "pytest-mock", "pytest-plus (>=0.2)", "pytest-xdist (>=2.1.0)", "ruamel-yaml-clib", "ruamel.yaml (>=0.17.31,<0.18)", "spdx-tools (>=0.7.1,<0.8.0)", "types-jsonschema", "types-pyyaml"]
 
 [[package]]
@@ -564,6 +564,16 @@ files = [
     {file = "MarkupSafe-2.1.3-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:5bbe06f8eeafd38e5d0a4894ffec89378b6c6a625ff57e3028921f8ff59318ac"},
     {file = "MarkupSafe-2.1.3-cp311-cp311-win32.whl", hash = "sha256:dd15ff04ffd7e05ffcb7fe79f1b98041b8ea30ae9234aed2a9168b5797c3effb"},
     {file = "MarkupSafe-2.1.3-cp311-cp311-win_amd64.whl", hash = "sha256:134da1eca9ec0ae528110ccc9e48041e0828d79f24121a1a146161103c76e686"},
+    {file = "MarkupSafe-2.1.3-cp312-cp312-macosx_10_9_universal2.whl", hash = "sha256:f698de3fd0c4e6972b92290a45bd9b1536bffe8c6759c62471efaa8acb4c37bc"},
+    {file = "MarkupSafe-2.1.3-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:aa57bd9cf8ae831a362185ee444e15a93ecb2e344c8e52e4d721ea3ab6ef1823"},
+    {file = "MarkupSafe-2.1.3-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ffcc3f7c66b5f5b7931a5aa68fc9cecc51e685ef90282f4a82f0f5e9b704ad11"},
+    {file = "MarkupSafe-2.1.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:47d4f1c5f80fc62fdd7777d0d40a2e9dda0a05883ab11374334f6c4de38adffd"},
+    {file = "MarkupSafe-2.1.3-cp312-cp312-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:1f67c7038d560d92149c060157d623c542173016c4babc0c1913cca0564b9939"},
+    {file = "MarkupSafe-2.1.3-cp312-cp312-musllinux_1_1_aarch64.whl", hash = "sha256:9aad3c1755095ce347e26488214ef77e0485a3c34a50c5a5e2471dff60b9dd9c"},
+    {file = "MarkupSafe-2.1.3-cp312-cp312-musllinux_1_1_i686.whl", hash = "sha256:14ff806850827afd6b07a5f32bd917fb7f45b046ba40c57abdb636674a8b559c"},
+    {file = "MarkupSafe-2.1.3-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:8f9293864fe09b8149f0cc42ce56e3f0e54de883a9de90cd427f191c346eb2e1"},
+    {file = "MarkupSafe-2.1.3-cp312-cp312-win32.whl", hash = "sha256:715d3562f79d540f251b99ebd6d8baa547118974341db04f5ad06d5ea3eb8007"},
+    {file = "MarkupSafe-2.1.3-cp312-cp312-win_amd64.whl", hash = "sha256:1b8dd8c3fd14349433c79fa8abeb573a55fc0fdd769133baac1f5e07abf54aeb"},
     {file = "MarkupSafe-2.1.3-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:8e254ae696c88d98da6555f5ace2279cf7cd5b3f52be2b5cf97feafe883b58d2"},
     {file = "MarkupSafe-2.1.3-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:cb0932dc158471523c9637e807d9bfb93e06a95cbf010f1a38b98623b929ef2b"},
     {file = "MarkupSafe-2.1.3-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9402b03f1a1b4dc4c19845e5c749e3ab82d5078d16a2a4c2cd2df62d57bb0707"},
@@ -620,13 +630,13 @@ files = [
 
 [[package]]
 name = "oci"
-version = "2.111.0"
+version = "2.112.2"
 description = "Oracle Cloud Infrastructure Python SDK"
 optional = false
 python-versions = "*"
 files = [
-    {file = "oci-2.111.0-py3-none-any.whl", hash = "sha256:c65809923b0daab9ece9bd741a4c24ffdc79ec4e4950b5488799f42408d510db"},
-    {file = "oci-2.111.0.tar.gz", hash = "sha256:b2f80c04480920f0b8cfa46d41f6a54e2d4971ae50150075fbe8c5084807891d"},
+    {file = "oci-2.112.2-py3-none-any.whl", hash = "sha256:b2c86977c373f1b14185bca230ce0f0c242af3ce8ebf8b00ce79518ea0d1a8e9"},
+    {file = "oci-2.112.2.tar.gz", hash = "sha256:0ca3ec338df41a64f9910e41612dacda27ca1f19c8fd197d5b93dc64b7f896c0"},
 ]
 
 [package.dependencies]
@@ -639,13 +649,13 @@ pytz = ">=2016.10"
 
 [[package]]
 name = "oci-cli"
-version = "3.32.0"
+version = "3.33.2"
 description = "Oracle Cloud Infrastructure CLI"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "oci-cli-3.32.0.tar.gz", hash = "sha256:74b9670000a9ebb2f98bfd0eb62886521235bc192533a2439cb306f7f8927bf8"},
-    {file = "oci_cli-3.32.0-py3-none-any.whl", hash = "sha256:8507081ba491820805a6ca659d57af3ca2e0c6f962ae48bac19c452553dfc43d"},
+    {file = "oci-cli-3.33.2.tar.gz", hash = "sha256:835210c334fbabc2d12dca8e06da371ef2bede19ba40269d9f0350c7bfd90a95"},
+    {file = "oci_cli-3.33.2-py3-none-any.whl", hash = "sha256:f5a477be4a36b5d830f154896a5cd6f4edfb98de369d6eefa2f06352a9d0aa23"},
 ]
 
 [package.dependencies]
@@ -654,12 +664,12 @@ certifi = "*"
 click = "8.0.4"
 cryptography = ">=3.2.1,<42.0.0"
 jmespath = "0.10.0"
-oci = "2.111.0"
+oci = "2.112.2"
 prompt-toolkit = "3.0.29"
 pyOpenSSL = ">=17.5.0,<24.0.0"
 python-dateutil = ">=2.5.3,<3.0.0"
 pytz = ">=2016.10"
-PyYAML = ">=5.4,<=6"
+PyYAML = ">=5.4,<=6.0.1"
 six = ">=1.15.0"
 terminaltables = "3.1.0"
 
