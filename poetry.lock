@@ -635,13 +635,13 @@ files = [
 
 [[package]]
 name = "oci"
-version = "2.114.0"
+version = "2.115.0"
 description = "Oracle Cloud Infrastructure Python SDK"
 optional = false
 python-versions = "*"
 files = [
-    {file = "oci-2.114.0-py3-none-any.whl", hash = "sha256:aec5f8ad058db55a6624bb0ac533700b5f7074802134e5e9beb2d63b4e60c663"},
-    {file = "oci-2.114.0.tar.gz", hash = "sha256:87fb43919f6d44dd68744dead95ea45407abddea7d7e5d17fa82802970c26ae0"},
+    {file = "oci-2.115.0-py3-none-any.whl", hash = "sha256:57cf3e82479198911eccd2caa1435496df796035a1775b384769fd095eeb811d"},
+    {file = "oci-2.115.0.tar.gz", hash = "sha256:08bfe2d4bfe449a4f968e7c26a25719cc6ae52de9d4d8396944f45657ef5ba51"},
 ]
 
 [package.dependencies]
@@ -654,13 +654,13 @@ pytz = ">=2016.10"
 
 [[package]]
 name = "oci-cli"
-version = "3.35.0"
+version = "3.36.0"
 description = "Oracle Cloud Infrastructure CLI"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "oci-cli-3.35.0.tar.gz", hash = "sha256:83d5d2461d0dfa8b90f1473334e266c9339fcfebe44697afcca2aef0401c5fb3"},
-    {file = "oci_cli-3.35.0-py3-none-any.whl", hash = "sha256:d24fa4ae8748dea42d19bbaab5a1634fc7c65e54d02caaff2d5c8faafb72b9c5"},
+    {file = "oci-cli-3.36.0.tar.gz", hash = "sha256:68cf0880358c6c663f3ac1136af4cdced603cb52b5b0587d120a1b8e90c0f088"},
+    {file = "oci_cli-3.36.0-py3-none-any.whl", hash = "sha256:c2449aefa662572e2ff213c36bd5cbffffeee7e0ec4329e5c13aa4dd2b04e074"},
 ]
 
 [package.dependencies]
@@ -669,7 +669,7 @@ certifi = "*"
 click = "8.0.4"
 cryptography = ">=3.2.1,<42.0.0"
 jmespath = "0.10.0"
-oci = "2.114.0"
+oci = "2.115.0"
 prompt-toolkit = "3.0.29"
 pyOpenSSL = ">=17.5.0,<24.0.0"
 python-dateutil = ">=2.5.3,<3.0.0"
