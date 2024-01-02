@@ -33,9 +33,13 @@ improvements, or use parts of our configuration in your own deployments!
   Infrastructure](https://www.oracle.com/cloud/) from the sign-up on OCI to the
   moment our services are up, with minimal manual intervention.
 - 🖥️ Sets up a 24/7 **[Purpur](https://purpurmc.org/) Minecraft server using
-  the recommended [Aikar's JVM
-  flags](https://docs.papermc.io/paper/aikars-flags)** on a minimal, standard
-  **ARM Ubuntu 22.04 virtual machine** (a.k.a. instance).
+  the recommended [brucethemoose's state of the art JVM
+  flags](https://github.com/brucethemoose/Minecraft-Performance-Flags-Benchmark)**
+  on a minimal, standard **ARM Ubuntu 22.04 virtual machine** (a.k.a. instance).
+  [Oracle GraalVM](https://www.graalvm.org/downloads/) (formerly Oracle GraalVM
+  Enterprise Edition) is used, leveraging its top-tier compiler based on JVMCI,
+  which generates significantly better optimized code than OpenJDK's C2 for some
+  workloads.
 - 💾 Automated [**3-2-1 backup
   strategy**](https://www.backblaze.com/blog/the-3-2-1-backup-strategy/) powered
   by [duplicity](https://duplicity.gitlab.io/):

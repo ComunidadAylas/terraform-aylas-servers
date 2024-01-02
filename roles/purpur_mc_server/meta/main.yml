@@ -1,4 +1,17 @@
 dependencies:
+  - role: Comcast.sdkman
+    vars:
+      sdkman_user: "{{ java_sdkman_user }}"
+      sdkman_group: "{{ java_sdkman_group }}"
+      sdkman_update: true
+      sdkman_auto_answer: true
+      sdkman_tmp_dir: ~/.ansible/tmp
+      sdkman_flush_caches_after:
+        - temp
+      sdkman_install_packages:
+        - candidate: java
+          version: "{{ java_version }}"
+
   - role: duplicity_backup
     vars:
       backup_collections:

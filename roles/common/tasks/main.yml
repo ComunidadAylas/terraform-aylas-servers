@@ -1,6 +1,9 @@
 - name: Wait for instance to be reachable
   ansible.builtin.wait_for_connection:
 
+- name: Gather facts
+  ansible.builtin.gather_facts:
+
 - name: Install essential APT packages
   become: true
   # apt update may temporarily fail on instances that were just created
@@ -166,3 +169,29 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: u=rw,g=rw,o=r
+
+- name: Configure SDKMAN group
+  become: true
+  when: sdkman_group is defined
+  ansible.builtin.group:
+    name: "{{ sdkman_group }}"
+    system: true
+
+- name: Configure SDKMAN user
+  become: true
+  when: sdkman_user is defined and sdkman_group is defined
+  ansible.builtin.user:
+    name: "{{ sdkman_user }}"
+    group: "{{ sdkman_group }}"
+    comment: SDKMAN
+    shell: /usr/sbin/nologin
+    system: true
+    password: "!"
+
+- name: Add master user to SDKMAN user group
+  become: true
+  when: sdkman_group is defined
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: "{{ sdkman_group }}"
+    append: true

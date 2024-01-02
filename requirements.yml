@@ -1,3 +1,8 @@
+roles:
+  - src: https://github.com/ComunidadAylas/ansible-sdkman
+    version: fix/install-check-perm-errors
+    name: Comcast.sdkman
+
 collections:
   - name: community.general
     version: ">=8.0.2,<8.1.0"

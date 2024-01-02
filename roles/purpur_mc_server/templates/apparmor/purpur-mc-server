@@ -11,16 +11,17 @@ include <tunables/global>
 # https://opensuse-security.opensuse.narkive.com/larQcj8k/confining-java-applications
 profile "{{ user }}-purpur-mc-server" {
   include <abstractions/base>
-  include <abstractions/ubuntu-browsers.d/java>
   include <abstractions/nameservice>
   include <abstractions/ssl_certs>
   include <abstractions/user-tmp>
 
   # Allow the JVM to run
-  /usr/lib/jvm/java-*/bin/java mr,
+  /home/{{ java_sdkman_user }}/.sdkman/candidates/java/{{ java_version }}/bin/java mr,
+  /home/{{ java_sdkman_user }}/.sdkman/candidates/java/{{ java_version }}/lib/**.so* mr,
+  /home/{{ java_sdkman_user }}/.sdkman/candidates/java/{{ java_version }}/** r,
 
   # Allow the JVM to spawn processes that comply with our AppArmor profile
-  /usr/lib/jvm/java-*/lib/jspawnhelper mrix,
+  /home/{{ java_sdkman_user }}/.sdkman/candidates/java/{{ java_version }}/lib/jspawnhelper mrix,
 
   # Misc files opened by the Minecraft server
   /usr/lib{,32,64}/ r,

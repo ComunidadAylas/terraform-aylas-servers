@@ -9,6 +9,8 @@
   roles:
     - role: common
       vars:
+        sdkman_user: sdkman
+        sdkman_group: sdkman
 
     - role: purpur_mc_server
       vars:
@@ -21,7 +23,9 @@
         default_minecraft_version: 1.19.4
         rcon_port: 25575
         rcon_password: "{{ lookup('ansible.builtin.password', '/dev/null', seed='khron' ~ inventory_hostname) }}"
-        java_version: 19
+        java_sdkman_user: sdkman
+        java_sdkman_group: sdkman
+        java_version: 21.0.1-graal # Installed by SDKMAN
         java_vm_heap_memory: "3584M"
         cgroup_high_memory: "4864M"
         cgroup_max_memory: "5G"

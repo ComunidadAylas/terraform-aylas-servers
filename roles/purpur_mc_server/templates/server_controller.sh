@@ -236,15 +236,21 @@ while true; do
   unset RESTARTING
   rm -f "$STOPPED_FLAG_FILE"
 
+  # Java flags based on research at https://github.com/brucethemoose/Minecraft-Performance-Flags-Benchmarks
   status_code=0
   aa-exec --profile='{{ user }}-purpur-mc-server' \
-    java '-Xmx{{ java_vm_heap_memory }}' '-Xms{{ java_vm_heap_memory }}' \
-    -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions \
-    -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 \
-    -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 \
-    -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 \
-    -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 \
-    -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true \
+    '/home/{{ java_sdkman_user }}/.sdkman/candidates/java/{{ java_version }}/bin/java' \
+    '-Xmx{{ java_vm_heap_memory }}' '-Xms{{ java_vm_heap_memory }}' \
+    -XX:+UnlockExperimentalVMOptions -XX:+UnlockDiagnosticVMOptions -XX:+AlwaysActAsServerClassMachine \
+    -XX:+AlwaysPreTouch -XX:+DisableExplicitGC -XX:+UseNUMA -XX:-DontCompileHugeMethods -XX:MaxNodeLimit=240000 \
+    -XX:NodeLimitFudgeFactor=8000 -XX:+UseVectorCmov -XX:+PerfDisableSharedMem -XX:+UseFastUnorderedTimeStamps \
+    -XX:+UseCriticalJavaThreadPriority -XX:AllocatePrefetchStyle=3 \
+    -XX:NmethodSweepActivity=1 -XX:ReservedCodeCacheSize=400M -XX:NonNMethodCodeHeapSize=12M -XX:ProfiledCodeHeapSize=194M -XX:NonProfiledCodeHeapSize=194M \
+    -XX:+UseG1GC -XX:MaxGCPauseMillis=130 -XX:G1NewSizePercent=28 -XX:G1HeapRegionSize=16M -XX:G1ReservePercent=20 \
+    -XX:G1MixedGCCountTarget=3 -XX:InitiatingHeapOccupancyPercent=10 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=0 \
+    -XX:SurvivorRatio=32 -XX:MaxTenuringThreshold=1 -XX:G1SATBBufferEnqueueingThresholdPercent=30 -XX:G1ConcMarkStepDurationMillis=5 \
+    -XX:+UseTransparentHugePages -XX:+EagerJVMCI -Dgraal.TuneInlinerExploration=1 -Dgraal.CompilerConfiguration=enterprise \
+    -Xlog:gc+init \
     --add-modules=jdk.incubator.vector \
     -jar purpur.jar || status_code=$?
 

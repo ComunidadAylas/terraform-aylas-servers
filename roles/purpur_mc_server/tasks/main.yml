@@ -3,6 +3,7 @@
   ansible.builtin.user:
     name: "{{ user }}"
     group: "{{ user }}"
+    groups: "{{ java_sdkman_group }}"
     # pri=-5 is read by the pam_umask module to set the default process
     # niceness. That module is executed for every login as this user
     comment: Minecraft server user,pri=-5
@@ -51,15 +52,6 @@
     owner: "{{ user }}"
     group: "{{ user }}"
     mode: u=rwx,g=rwxs,o=
-
-- name: Install Java {{ java_version }}
-  become: true
-  ansible.builtin.apt:
-    package:
-      - openjdk-{{ java_version }}-jre-headless
-      # The server profiler recommends having debug symbols available
-      - openjdk-{{ java_version }}-dbg
-    install_recommends: false
 
 - name: Create mc_version file
   become: true
