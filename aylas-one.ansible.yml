@@ -59,11 +59,7 @@
 
     - role: storage_quotas
       vars:
-        # This is coupled to a specific kernel version due to a missing
-        # metapackage:
-        # https://bugs.launchpad.net/ubuntu/+source/linux-meta-oracle/+bug/2000665
-        quota_kernel_modules_package: linux-modules-extra-5.15.0-1046-oracle
-        pin_oracle_kernel_version: true
+        pin_oracle_kernel_version: false
         group_quotas:
           - name: khron
             limits: 10G 12G 0 0

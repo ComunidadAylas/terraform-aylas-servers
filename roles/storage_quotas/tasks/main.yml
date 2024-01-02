@@ -15,12 +15,6 @@
     opts: discard,errors=remount-ro,jqfmt=vfsv1,grpjquota=group.quota
     state: present
 
-- name: Install quota kernel modules
-  become: true
-  ansible.builtin.apt:
-    package: "{{ quota_kernel_modules_package }}"
-    install_recommends: false
-
 - name: Prevent Oracle kernel updates to ensure quota modules compatibility
   become: true
   when: pin_oracle_kernel_version
