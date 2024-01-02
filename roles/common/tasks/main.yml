@@ -66,6 +66,7 @@
       - cryptsetup
       - cryptsetup-bin
       - dmeventd
+      - wpasupplicant
     state: absent
     purge: true
     autoremove: true
@@ -152,16 +153,16 @@
 
 - name: Create htop user configuration directory
   ansible.builtin.file:
-    path: /home/{{ control_user_name }}/.config/htop
+    path: /home/{{ ansible_user }}/.config/htop
     state: directory
-    owner: "{{ control_user_name }}"
-    group: "{{ control_user_group }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     mode: u=rwx,g=,o=
 
 - name: Copy htop configuration
   ansible.builtin.copy:
     src: htoprc
-    dest: /home/{{ control_user_name }}/.config/htop/htoprc
-    owner: "{{ control_user_name }}"
-    group: "{{ control_user_group }}"
+    dest: /home/{{ ansible_user }}/.config/htop/htoprc
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     mode: u=rw,g=rw,o=r

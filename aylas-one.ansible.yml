@@ -9,8 +9,6 @@
   roles:
     - role: common
       vars:
-        control_user_name: master
-        control_user_group: master
 
     - role: purpur_mc_server
       vars:
