@@ -2,17 +2,17 @@
 
 [[package]]
 name = "ansible"
-version = "9.2.0"
+version = "9.3.0"
 description = "Radically simple IT automation"
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "ansible-9.2.0-py3-none-any.whl", hash = "sha256:39b19c252800aeed531413a626ccd07473b79615a3cea77568a1624c1aefaf7c"},
-    {file = "ansible-9.2.0.tar.gz", hash = "sha256:a207a4a00a45e5cd178a7f94ca42afe26f23c9d27be49901ea8c45d18a07b7c6"},
+    {file = "ansible-9.3.0-py3-none-any.whl", hash = "sha256:471993dd239611b4b6134e46911612f85639035f10d82b6c888528b5ffb3b16a"},
+    {file = "ansible-9.3.0.tar.gz", hash = "sha256:7f4ea0e4d065538879b3e11e81e85eed4d802d1940f6564ad950e9d11a31b03c"},
 ]
 
 [package.dependencies]
-ansible-core = ">=2.16.3,<2.17.0"
+ansible-core = ">=2.16.4,<2.17.0"
 
 [[package]]
 name = "ansible-compat"
@@ -38,13 +38,13 @@ test = ["coverage", "pip-tools", "pytest (>=7.2.0)", "pytest-mock", "pytest-plus
 
 [[package]]
 name = "ansible-core"
-version = "2.16.3"
+version = "2.16.4"
 description = "Radically simple IT automation"
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "ansible-core-2.16.3.tar.gz", hash = "sha256:76a8765a8586064ef073a299562e308fa2c180a75b5f7569bbd0f61d4171cdb3"},
-    {file = "ansible_core-2.16.3-py3-none-any.whl", hash = "sha256:50c9f33a5b2ee645470a77f4bf99cf35d1ffdefef60388910020b0c58534bec1"},
+    {file = "ansible-core-2.16.4.tar.gz", hash = "sha256:2cd208b0915948c88bffad331e5d07097b6edca1872cb53375e51b6719e6a060"},
+    {file = "ansible_core-2.16.4-py3-none-any.whl", hash = "sha256:c55d9a5f55651eb6c7f004ca9a9ed854d8cc310e6b438d96cea051cf3d2b2710"},
 ]
 
 [package.dependencies]
@@ -524,48 +524,48 @@ files = [
 
 [[package]]
 name = "oci"
-version = "2.120.0"
+version = "2.123.0"
 description = "Oracle Cloud Infrastructure Python SDK"
 optional = false
 python-versions = "*"
 files = [
-    {file = "oci-2.120.0-py3-none-any.whl", hash = "sha256:e066b8624abda0ba006020768d561f0da24c6e0bbe65831f49c451d00aeed74c"},
-    {file = "oci-2.120.0.tar.gz", hash = "sha256:e5ba9700db2e0572f13897d28aef8944b9bf38faffc1b68fcfa154bcaefc5af1"},
+    {file = "oci-2.123.0-py3-none-any.whl", hash = "sha256:959ba07408aca4e32c5122a10539233d25d677a6e3a22e795cf7a70d46174268"},
+    {file = "oci-2.123.0.tar.gz", hash = "sha256:84725236fa3d62c83f185597528bafb1a6909dda4bfaeab07855057ef967ff90"},
 ]
 
 [package.dependencies]
 certifi = "*"
 circuitbreaker = ">=1.3.1,<2.0.0"
-cryptography = ">=3.2.1,<42.0.0"
-pyOpenSSL = ">=17.5.0,<24.0.0"
+cryptography = ">=3.2.1,<43.0.0"
+pyOpenSSL = ">=17.5.0,<25.0.0"
 python-dateutil = ">=2.5.3,<3.0.0"
 pytz = ">=2016.10"
 
 [[package]]
 name = "oci-cli"
-version = "3.37.7"
+version = "3.37.11"
 description = "Oracle Cloud Infrastructure CLI"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "oci-cli-3.37.7.tar.gz", hash = "sha256:8d8987837ec8538d9bb14776625e0c24809c7e06b2f6450820d50f6194ee29d8"},
-    {file = "oci_cli-3.37.7-py3-none-any.whl", hash = "sha256:9b3bc7b58c59c58bc768cd8191794b99615810178ee2c94d072204078173c69d"},
+    {file = "oci-cli-3.37.11.tar.gz", hash = "sha256:456b6be1809c92180287c190e87b2a8c4c9a21523fec2f4b06fc77a1e9f9d1b1"},
+    {file = "oci_cli-3.37.11-py3-none-any.whl", hash = "sha256:53b505fe045080600588b5e6fefd3748b82b3da845cbb1da3099d3f0ba475b7d"},
 ]
 
 [package.dependencies]
 arrow = ">=1.0.0"
 certifi = "*"
 click = "8.0.4"
-cryptography = ">=3.2.1,<42.0.0"
+cryptography = ">=3.2.1,<43.0.0"
 jmespath = "0.10.0"
-oci = "2.120.0"
+oci = "2.123.0"
 prompt-toolkit = "3.0.29"
-pyOpenSSL = ">=17.5.0,<24.0.0"
+pyOpenSSL = ">=17.5.0,<25.0.0"
 python-dateutil = ">=2.5.3,<3.0.0"
 pytz = ">=2016.10"
 PyYAML = ">=5.4,<=6.0.1"
 six = ">=1.15.0"
-terminaltables = "3.1.0"
+terminaltables = "3.1.10"
 
 [package.extras]
 db = ["cx-Oracle (==8.3)"]
@@ -1011,12 +1011,13 @@ test = ["enrich (>=1.2.6)", "molecule (>=3.4.0)", "pytest (>=6.2.5)", "pytest-co
 
 [[package]]
 name = "terminaltables"
-version = "3.1.0"
+version = "3.1.10"
 description = "Generate simple tables in terminals from a nested list of strings."
 optional = false
-python-versions = "*"
+python-versions = ">=2.6"
 files = [
-    {file = "terminaltables-3.1.0.tar.gz", hash = "sha256:f3eb0eb92e3833972ac36796293ca0906e998dc3be91fbe1f8615b331b853b81"},
+    {file = "terminaltables-3.1.10-py2.py3-none-any.whl", hash = "sha256:e4fdc4179c9e4aab5f674d80f09d76fa436b96fdc698a8505e0a36bf0804a874"},
+    {file = "terminaltables-3.1.10.tar.gz", hash = "sha256:ba6eca5cb5ba02bba4c9f4f985af80c54ec3dccf94cfcd190154386255e47543"},
 ]
 
 [[package]]

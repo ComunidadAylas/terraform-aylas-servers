@@ -24,7 +24,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         env:
           # renovate: datasource=docker depName=hashicorp/terraform versioning=docker
-          TERRAFORM_VERSION: 1.7.2
+          TERRAFORM_VERSION: 1.7.4
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
           terraform_wrapper: false
@@ -53,7 +53,7 @@ jobs:
       - name: 🧰 Set up Poetry
         env:
           # renovate: datasource=pypi depName=poetry
-          POETRY_VERSION: 1.7.1
+          POETRY_VERSION: 1.8.2
         run: pipx install poetry==${{ env.POETRY_VERSION }}
 
       - name: 🧰 Set up Python
