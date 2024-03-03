@@ -10,7 +10,7 @@ readme = "README.md"
 python = "^3.11"
 ansible = "^9.0.0"
 oci-cli = "^3.31.0"
-ansible-lint = { version = "^6.17.0", markers = "platform_system != 'Windows'" }
+ansible-lint = { version = "^24.0.0", markers = "platform_system != 'Windows'" }
 
 [build-system]
 requires = ["poetry-core"]
