@@ -2,17 +2,17 @@
 
 [[package]]
 name = "ansible"
-version = "9.3.0"
+version = "9.4.0"
 description = "Radically simple IT automation"
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "ansible-9.3.0-py3-none-any.whl", hash = "sha256:471993dd239611b4b6134e46911612f85639035f10d82b6c888528b5ffb3b16a"},
-    {file = "ansible-9.3.0.tar.gz", hash = "sha256:7f4ea0e4d065538879b3e11e81e85eed4d802d1940f6564ad950e9d11a31b03c"},
+    {file = "ansible-9.4.0-py3-none-any.whl", hash = "sha256:f1d67a2c21dbed3fee4fe579f750e5d20b5a5f13f4399f256a8a70f0505e62f7"},
+    {file = "ansible-9.4.0.tar.gz", hash = "sha256:dd431c63380e18c3faca3288ebde8ce2f4f992363ab558a3c11c8f2032d90867"},
 ]
 
 [package.dependencies]
-ansible-core = ">=2.16.4,<2.17.0"
+ansible-core = ">=2.16.5,<2.17.0"
 
 [[package]]
 name = "ansible-compat"
@@ -38,13 +38,13 @@ test = ["coverage", "pip-tools", "pytest (>=7.2.0)", "pytest-mock", "pytest-plus
 
 [[package]]
 name = "ansible-core"
-version = "2.16.4"
+version = "2.16.5"
 description = "Radically simple IT automation"
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "ansible-core-2.16.4.tar.gz", hash = "sha256:2cd208b0915948c88bffad331e5d07097b6edca1872cb53375e51b6719e6a060"},
-    {file = "ansible_core-2.16.4-py3-none-any.whl", hash = "sha256:c55d9a5f55651eb6c7f004ca9a9ed854d8cc310e6b438d96cea051cf3d2b2710"},
+    {file = "ansible-core-2.16.5.tar.gz", hash = "sha256:cdd29b0ec3f20c35657355a2f6a9c1d0cf1131da99cc9a4a3401801b0ab36d6d"},
+    {file = "ansible_core-2.16.5-py3-none-any.whl", hash = "sha256:371b0bb11d109a58982684307c18cc44ff8d408b1b3350c0c5c78d9f096ee1f1"},
 ]
 
 [package.dependencies]
@@ -56,13 +56,13 @@ resolvelib = ">=0.5.3,<1.1.0"
 
 [[package]]
 name = "ansible-lint"
-version = "24.2.0"
+version = "24.2.1"
 description = "Checks playbooks for practices and behavior that could potentially be improved"
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "ansible-lint-24.2.0.tar.gz", hash = "sha256:6bc5d6273f33711ec6d370dfe5fdbe97a64b4c36c2a7a19a249401326eb03616"},
-    {file = "ansible_lint-24.2.0-py3-none-any.whl", hash = "sha256:755f369c6baf601b09c4931a4e6bd0df3d79c54eb519f093e5db6ab52ad03e0c"},
+    {file = "ansible-lint-24.2.1.tar.gz", hash = "sha256:c3619deaadf852c353decff7242589bd1339e29271552e4e37bfa8f67db4c56b"},
+    {file = "ansible_lint-24.2.1-py3-none-any.whl", hash = "sha256:d9e11aa06429610f0b461ec5eb9adf7317d4b2abb78475a9a1ec7e8f8e2c1316"},
 ]
 
 [package.dependencies]
@@ -523,13 +523,13 @@ files = [
 
 [[package]]
 name = "oci"
-version = "2.123.0"
+version = "2.125.0"
 description = "Oracle Cloud Infrastructure Python SDK"
 optional = false
 python-versions = "*"
 files = [
-    {file = "oci-2.123.0-py3-none-any.whl", hash = "sha256:959ba07408aca4e32c5122a10539233d25d677a6e3a22e795cf7a70d46174268"},
-    {file = "oci-2.123.0.tar.gz", hash = "sha256:84725236fa3d62c83f185597528bafb1a6909dda4bfaeab07855057ef967ff90"},
+    {file = "oci-2.125.0-py3-none-any.whl", hash = "sha256:06c4c951ad4119540e7aed441c0b43b703d67a856b87a9c4907c1bb7b65fc65d"},
+    {file = "oci-2.125.0.tar.gz", hash = "sha256:c3737a9d3e3344bdee3a6a3a3c1dfeaf3b89935628dbdcb7745d7051944ee83f"},
 ]
 
 [package.dependencies]
@@ -542,13 +542,13 @@ pytz = ">=2016.10"
 
 [[package]]
 name = "oci-cli"
-version = "3.37.11"
+version = "3.38.0"
 description = "Oracle Cloud Infrastructure CLI"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "oci-cli-3.37.11.tar.gz", hash = "sha256:456b6be1809c92180287c190e87b2a8c4c9a21523fec2f4b06fc77a1e9f9d1b1"},
-    {file = "oci_cli-3.37.11-py3-none-any.whl", hash = "sha256:53b505fe045080600588b5e6fefd3748b82b3da845cbb1da3099d3f0ba475b7d"},
+    {file = "oci-cli-3.38.0.tar.gz", hash = "sha256:d65345a01e9271246a1e668af4f6dbed681f68651fb38c10f4092a1ec0ae151b"},
+    {file = "oci_cli-3.38.0-py3-none-any.whl", hash = "sha256:2e81a6ef1fe757f2851b19ac6b2494ab44abc95c824c2fcee5d1ebaf4c330cd8"},
 ]
 
 [package.dependencies]
@@ -557,7 +557,7 @@ certifi = "*"
 click = "8.0.4"
 cryptography = ">=3.2.1,<43.0.0"
 jmespath = "0.10.0"
-oci = "2.123.0"
+oci = "2.125.0"
 prompt-toolkit = "3.0.29"
 pyOpenSSL = ">=17.5.0,<25.0.0"
 python-dateutil = ">=2.5.3,<3.0.0"

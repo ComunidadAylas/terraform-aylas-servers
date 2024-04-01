@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 # renovate: datasource=docker depName=hashicorp/terraform versioning=docker
-readonly TERRAFORM_VERSION=1.7.4
+readonly TERRAFORM_VERSION=1.7.5
 readonly OCI_TENANCY_REGION=eu-madrid-1
 
 WORKDIR="$(mktemp --tmpdir --directory terraform-aylas.XXX)"
