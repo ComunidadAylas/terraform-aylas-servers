@@ -24,7 +24,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         env:
           # renovate: datasource=docker depName=hashicorp/terraform versioning=docker
-          TERRAFORM_VERSION: 1.7.4
+          TERRAFORM_VERSION: 1.7.5
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
           terraform_wrapper: false
