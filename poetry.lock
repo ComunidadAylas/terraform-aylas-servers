@@ -2,49 +2,49 @@
 
 [[package]]
 name = "ansible"
-version = "9.5.1"
+version = "9.6.1"
 description = "Radically simple IT automation"
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "ansible-9.5.1-py3-none-any.whl", hash = "sha256:aed2f4208a75836a27c13555ec5d8d942fe3b089a8b1fc44e8234fadd9e649fd"},
-    {file = "ansible-9.5.1.tar.gz", hash = "sha256:3c278bc9642b97fc953b2ba05b99cd80801e75bf3567dfaa1cb5131fe0ec1ecd"},
+    {file = "ansible-9.6.1-py3-none-any.whl", hash = "sha256:75ff4c28f8708475b5590f28c2e0a296fb6bee297b16b1bb39e93533203f69e4"},
+    {file = "ansible-9.6.1.tar.gz", hash = "sha256:b93a446819387a4bfaf5f2caaa37d508539e169e20bde49bb3fa4f94f32b528c"},
 ]
 
 [package.dependencies]
-ansible-core = ">=2.16.6,<2.17.0"
+ansible-core = ">=2.16.7,<2.17.0"
 
 [[package]]
 name = "ansible-compat"
-version = "4.1.11"
+version = "24.6.1"
 description = "Ansible compatibility goodies"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "ansible-compat-4.1.11.tar.gz", hash = "sha256:b3e9f9d7c3a1ce6222de444e9dc6fece7eba70ac64f2a0befdc4e2d542018b4a"},
-    {file = "ansible_compat-4.1.11-py3-none-any.whl", hash = "sha256:74a91807808a39af48ab6595811b9340d1458db26b138362f48bf39292190705"},
+    {file = "ansible_compat-24.6.1-py3-none-any.whl", hash = "sha256:1e1695454ea759b24beab7dfbeac18964553edca4a4ad0584567aa3eef491f0e"},
+    {file = "ansible_compat-24.6.1.tar.gz", hash = "sha256:f93d4c347d8e1903c292449441c09a987d70366f9cadf9afe5e32dc8a0193cac"},
 ]
 
 [package.dependencies]
-ansible-core = ">=2.12"
+ansible-core = ">=2.14"
 jsonschema = ">=4.6.0"
 packaging = "*"
 PyYAML = "*"
 subprocess-tee = ">=0.4.1"
 
 [package.extras]
-docs = ["argparse-manpage", "black", "mkdocs-ansible[lock] (>=0.1.2)"]
+docs = ["argparse-manpage", "black", "mkdocs-ansible (>=24.3.1)"]
 test = ["coverage", "pip-tools", "pytest (>=7.2.0)", "pytest-mock", "pytest-plus (>=0.6.1)"]
 
 [[package]]
 name = "ansible-core"
-version = "2.16.6"
+version = "2.16.7"
 description = "Radically simple IT automation"
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "ansible_core-2.16.6-py3-none-any.whl", hash = "sha256:f9dea5044a86fd95cc27099f4f5c3ae9beb23acf7c3b6331455726c47825922b"},
-    {file = "ansible_core-2.16.6.tar.gz", hash = "sha256:111e55d358c2297ec0ce03ba98e6c5ce95947fdf50d878215eb8c183d0c275e4"},
+    {file = "ansible_core-2.16.7-py3-none-any.whl", hash = "sha256:3e1b0ed76ff40d8722f1b5bf19348b95ff226ef5157f7afd720e3da1369a4a6e"},
+    {file = "ansible_core-2.16.7.tar.gz", hash = "sha256:a8c8f4facba30514571d47abec5c62a5768b86fef3d80d724911c8f20b7b34b7"},
 ]
 
 [package.dependencies]
@@ -56,20 +56,21 @@ resolvelib = ">=0.5.3,<1.1.0"
 
 [[package]]
 name = "ansible-lint"
-version = "24.2.3"
+version = "24.6.0"
 description = "Checks playbooks for practices and behavior that could potentially be improved"
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "ansible_lint-24.2.3-py3-none-any.whl", hash = "sha256:8aad0de454e0e803b0416a9c6e409302a8eb93c0f3866a98f035b96647e72213"},
-    {file = "ansible_lint-24.2.3.tar.gz", hash = "sha256:2ec67cc1719f56e63b1dfc3728d0c2c4142e531f4452f6ae31f618438d59469a"},
+    {file = "ansible_lint-24.6.0-py3-none-any.whl", hash = "sha256:68ddde5b19ba717b6b311d970a327c4b155e80dfa4a9291673235ee26df4db1a"},
+    {file = "ansible_lint-24.6.0.tar.gz", hash = "sha256:770dc5ac700bfc778b9effdc6d9bb20bac6c126579c2cbd5e0339fcc041f0af5"},
 ]
 
 [package.dependencies]
-ansible-compat = ">=4.1.11"
-ansible-core = ">=2.12.0"
+ansible-compat = ">=24.5.0dev0"
+ansible-core = ">=2.13.0"
 black = ">=24.3.0"
 filelock = ">=3.3.0"
+importlib-metadata = "*"
 jsonschema = ">=4.10.0"
 packaging = ">=21.3"
 pathspec = ">=0.10.3"
@@ -77,7 +78,10 @@ pyyaml = ">=5.4.1"
 rich = ">=12.0.0"
 "ruamel.yaml" = ">=0.18.5"
 subprocess-tee = ">=0.4.1"
-wcmatch = ">=8.1.2"
+wcmatch = [
+    {version = ">=8.1.2", markers = "python_version < \"3.12\""},
+    {version = ">=8.5.0", markers = "python_version >= \"3.12\""},
+]
 yamllint = ">=1.30.0"
 
 [package.extras]
@@ -348,6 +352,25 @@ testing = ["covdefaults (>=2.3)", "coverage (>=7.3.2)", "diff-cover (>=8)", "pyt
 typing = ["typing-extensions (>=4.8)"]
 
 [[package]]
+name = "importlib-metadata"
+version = "7.1.0"
+description = "Read metadata from Python packages"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "importlib_metadata-7.1.0-py3-none-any.whl", hash = "sha256:30962b96c0c223483ed6cc7280e7f0199feb01a0e40cfae4d4450fc6fab1f570"},
+    {file = "importlib_metadata-7.1.0.tar.gz", hash = "sha256:b78938b926ee8d5f020fc4772d487045805a55ddbad2ecf21c6d60938dc7fcd2"},
+]
+
+[package.dependencies]
+zipp = ">=0.5"
+
+[package.extras]
+docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
+perf = ["ipython"]
+testing = ["flufl.flake8", "importlib-resources (>=1.3)", "jaraco.test (>=5.4)", "packaging", "pyfakefs", "pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy", "pytest-perf (>=0.9.2)", "pytest-ruff (>=0.2.1)"]
+
+[[package]]
 name = "jinja2"
 version = "3.1.2"
 description = "A very fast and expressive template engine."
@@ -527,13 +550,13 @@ files = [
 
 [[package]]
 name = "oci"
-version = "2.126.1"
+version = "2.128.0"
 description = "Oracle Cloud Infrastructure Python SDK"
 optional = false
 python-versions = "*"
 files = [
-    {file = "oci-2.126.1-py3-none-any.whl", hash = "sha256:5aeb61e81f1426d22a795cc27279588149ddef84ff01f46ef07f96fb1fb0782f"},
-    {file = "oci-2.126.1.tar.gz", hash = "sha256:c4bcb51b89228d4b20139e0d8f53a91a0b958b8414cd77911e38348e83f338b5"},
+    {file = "oci-2.128.0-py3-none-any.whl", hash = "sha256:8ac424f7b58acfc48b810e17edd115e50cef66ea77cf2e9616b871fb83b58fea"},
+    {file = "oci-2.128.0.tar.gz", hash = "sha256:ebd9cadd0a3aed0aba4c7abe86a984ffaef399efb2b0540b838d273fa9000111"},
 ]
 
 [package.dependencies]
@@ -546,13 +569,13 @@ pytz = ">=2016.10"
 
 [[package]]
 name = "oci-cli"
-version = "3.40.1"
+version = "3.43.0"
 description = "Oracle Cloud Infrastructure CLI"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "oci-cli-3.40.1.tar.gz", hash = "sha256:ff517d165f34af3965c485487d7cd8aa42986193d18c1537def606a3f64b3e3b"},
-    {file = "oci_cli-3.40.1-py3-none-any.whl", hash = "sha256:226c7d0bb064b9bf0f1557c6e0ef2422679e5dac7ed57384f3309e93f991f9c9"},
+    {file = "oci-cli-3.43.0.tar.gz", hash = "sha256:e5b04f06cfc8adfd5dade632aced0488cac0527d33d8108a924ceb22c52e6f1e"},
+    {file = "oci_cli-3.43.0-py3-none-any.whl", hash = "sha256:4d55977fe02faa273ff15d51bb727caffbf77ac8d543aa5b7136709d9d2b6a60"},
 ]
 
 [package.dependencies]
@@ -561,8 +584,8 @@ certifi = "*"
 click = "8.0.4"
 cryptography = ">=3.2.1,<43.0.0"
 jmespath = "0.10.0"
-oci = "2.126.1"
-prompt-toolkit = "3.0.29"
+oci = "2.128.0"
+prompt-toolkit = {version = ">=3.0.38,<=3.0.43", markers = "python_version > \"3.6\""}
 pyOpenSSL = ">=17.5.0,<25.0.0"
 python-dateutil = ">=2.5.3,<3.0.0"
 pytz = ">=2016.10"
@@ -612,13 +635,13 @@ test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.4)", "pytest-co
 
 [[package]]
 name = "prompt-toolkit"
-version = "3.0.29"
+version = "3.0.43"
 description = "Library for building powerful interactive command lines in Python"
 optional = false
-python-versions = ">=3.6.2"
+python-versions = ">=3.7.0"
 files = [
-    {file = "prompt_toolkit-3.0.29-py3-none-any.whl", hash = "sha256:62291dad495e665fca0bda814e342c69952086afb0f4094d0893d357e5c78752"},
-    {file = "prompt_toolkit-3.0.29.tar.gz", hash = "sha256:bd640f60e8cecd74f0dc249713d433ace2ddc62b65ee07f96d358e0b152b6ea7"},
+    {file = "prompt_toolkit-3.0.43-py3-none-any.whl", hash = "sha256:a11a29cb3bf0a28a387fe5122cdb649816a957cd9261dcedf8c9f1fef33eacf6"},
+    {file = "prompt_toolkit-3.0.43.tar.gz", hash = "sha256:3527b7af26106cbc65a040bcc84839a3566ec1b051bb0bfe953631e704b0ff7d"},
 ]
 
 [package.dependencies]
@@ -1076,6 +1099,21 @@ pyyaml = "*"
 
 [package.extras]
 dev = ["doc8", "flake8", "flake8-import-order", "rstcheck[sphinx]", "sphinx"]
+
+[[package]]
+name = "zipp"
+version = "3.19.2"
+description = "Backport of pathlib-compatible object wrapper for zip files"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "zipp-3.19.2-py3-none-any.whl", hash = "sha256:f091755f667055f2d02b32c53771a7a6c8b47e1fdbc4b72a8b9072b3eef8015c"},
+    {file = "zipp-3.19.2.tar.gz", hash = "sha256:bf1dcf6450f873a13e952a29504887c89e6de7506209e5b1bcc3460135d4de19"},
+]
+
+[package.extras]
+doc = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
+test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more-itertools", "pytest (>=6,!=8.1.*)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-ignore-flaky", "pytest-mypy", "pytest-ruff (>=0.2.1)"]
 
 [metadata]
 lock-version = "2.0"
