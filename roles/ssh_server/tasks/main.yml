@@ -37,7 +37,7 @@
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     line: "#X11Forwarding no"
-    regexp: ^X11Forwarding
+    regexp: ^#?X11Forwarding
     owner: root
     group: root
     mode: u=rw,g=r,o=r
