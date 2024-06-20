@@ -182,6 +182,10 @@ resource "oci_core_instance" "aylas-one" {
   }
 
   provisioner "local-exec" {
+    command = "ansible-galaxy install -r requirements.yml"
+  }
+
+  provisioner "local-exec" {
     command = "ansible-playbook -e tf_provisioner_run=true -i '${self.public_ip}:${var.ssh_port},' -u master --private-key /tmp/${self.create_vnic_details[0].hostname_label}-master-key '${self.create_vnic_details[0].hostname_label}.ansible.yml'"
   }
 }
