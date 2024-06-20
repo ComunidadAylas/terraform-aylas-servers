@@ -195,3 +195,21 @@
     name: "{{ ansible_user }}"
     groups: "{{ sdkman_group }}"
     append: true
+
+# sshd and other servers may leverage the kernel TCP keepalives support, but
+# shorter keepalive messages are necessary because OCI firewalls/NAT gateways
+# are eager to drop connections that are kept idle for much less time than the
+# default of two hours considered by the Linux kernel. SSH sessions that get
+# inactive are a prime candidate for being dropped because of this. See also:
+# https://bugs.launchpad.net/cloud-images/+bug/1838670
+- name: Tweak TCP keepalive time
+  become: true
+  ansible.posix.sysctl:
+    name: net.ipv4.tcp_keepalive_time
+    value: 120
+
+- name: Tweak TCP keepalive maximum probes
+  become: true
+  ansible.posix.sysctl:
+    name: net.ipv4.tcp_keepalive_probes
+    value: 3
