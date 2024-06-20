@@ -5,6 +5,7 @@ description = "Terraform and Ansible artifacts to manage the Aylas Community ser
 authors = ["Alejandro González <me@alegon.dev>"]
 license = "MIT"
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
