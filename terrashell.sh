@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh -eu
 
 # renovate: datasource=docker depName=hashicorp/terraform versioning=docker
 readonly TERRAFORM_VERSION=1.8.2
@@ -20,8 +20,9 @@ poetry install
 
 echo
 echo "> Downloading Terraform v$TERRAFORM_VERSION..."
-curl "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_$(dpkg-architecture -q DEB_HOST_ARCH).zip" | \
-	funzip > "$WORKDIR"/terraform
+curl -o terraform.zip \
+	"https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_$(dpkg-architecture -q DEB_HOST_ARCH).zip"
+unzip terraform.zip terraform -d "$WORKDIR"
 chmod +x "$WORKDIR"/terraform
 
 echo
