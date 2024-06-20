@@ -20,9 +20,10 @@ poetry install
 
 echo
 echo "> Downloading Terraform v$TERRAFORM_VERSION..."
-curl -o terraform.zip \
+curl -o "$WORKDIR"/terraform.zip \
 	"https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_$(dpkg-architecture -q DEB_HOST_ARCH).zip"
-unzip terraform.zip terraform -d "$WORKDIR"
+unzip "$WORKDIR"/terraform.zip terraform -d "$WORKDIR"
+rm "$WORKDIR"/terraform.zip
 chmod +x "$WORKDIR"/terraform
 
 echo
