@@ -218,18 +218,24 @@
   become: true
   notify: Persist iptables configuration
   when: extra_services is defined
-  loop: "{{ extra_services }}"
+  loop: "{{ extra_services | product(['ipv4', 'ipv6']) | list }}"
   ansible.builtin.iptables:
     chain: INPUT
     ctstate: NEW
     protocol: tcp
-    destination_port: "{{ item.port }}"
+    destination_port: "{{ item[0].port }}"
     jump: ACCEPT
     action: insert
+    ip_version: "{{ item[1] }}"
 
 - name: Allow incoming TCP connections to Minecraft server
   become: true
   notify: Persist iptables configuration
+  loop:
+    - ipv4
+    - ipv6
+  loop_control:
+    loop_var: ip_version
   ansible.builtin.iptables:
     chain: INPUT
     ctstate: NEW
@@ -237,3 +243,4 @@
     destination_port: "{{ server_port }}"
     jump: ACCEPT
     action: insert
+    ip_version: "{{ ip_version }}"

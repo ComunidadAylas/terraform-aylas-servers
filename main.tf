@@ -31,11 +31,15 @@ resource "oci_core_vcn" "aylas-net" {
   ]
   display_name   = "aylas-net"
   dns_label      = "aylas"
+  is_ipv6enabled = "true"
   compartment_id = var.compartment_id
 }
 
 resource "oci_core_subnet" "aylas-one-subnet" {
-  cidr_block                 = "10.0.0.0/24"
+  cidr_block = "10.0.0.0/24"
+  # This should match the IPv6 prefix allocated to aylas-net,
+  # which can't be retrieved from Terraform
+  ipv6cidr_block             = "2603:c027:8701:1900::/64"
   display_name               = "aylas-one-subnet"
   dns_label                  = "one"
   prohibit_internet_ingress  = "false"
@@ -61,6 +65,10 @@ resource "oci_core_default_route_table" "default-aylas-net-route-table" {
     network_entity_id = oci_core_internet_gateway.gw-aylas-net.id
     destination       = "0.0.0.0/0"
   }
+  route_rules {
+    network_entity_id = oci_core_internet_gateway.gw-aylas-net.id
+    destination       = "::/0"
+  }
   compartment_id = var.compartment_id
 }
 
@@ -70,19 +78,25 @@ resource "oci_core_default_route_table" "default-aylas-net-route-table" {
 
 resource "oci_core_default_security_list" "aylas-net-security-list" {
   display_name = "aylas-net-security-list"
-  egress_security_rules {
-    destination = "0.0.0.0/0"
-    protocol    = "all"
-    stateless   = "false"
+  dynamic "egress_security_rules" {
+    for_each = ["0.0.0.0/0", "::/0"]
+    content {
+      destination = egress_security_rules.value
+      protocol    = "all"
+      stateless   = "false"
+    }
   }
-  ingress_security_rules {
-    description = "In-band SSH management and services traffic"
-    protocol    = "6"
-    source      = "0.0.0.0/0"
-    stateless   = "false"
-    tcp_options {
-      max = var.ssh_port
-      min = var.ssh_port
+  dynamic "ingress_security_rules" {
+    for_each = ["0.0.0.0/0", "::/0"]
+    content {
+      description = "In-band SSH management and services traffic"
+      protocol    = "6"
+      source      = ingress_security_rules.value
+      stateless   = "false"
+      tcp_options {
+        max = var.ssh_port
+        min = var.ssh_port
+      }
     }
   }
   # Ingress ICMP control packets
@@ -105,21 +119,37 @@ resource "oci_core_default_security_list" "aylas-net-security-list" {
     stateless = "false"
   }
   ingress_security_rules {
-    description = "Minecraft server ingress traffic"
-    protocol    = "6"
-    source      = "0.0.0.0/0"
-    stateless   = "true"
-    tcp_options {
-      max = "25545"
-      min = "25545"
+    icmp_options {
+      code = "0"
+      type = "2"
+    }
+    protocol  = "58"
+    source    = "::/0"
+    stateless = "false"
+  }
+  dynamic "ingress_security_rules" {
+    for_each = ["0.0.0.0/0", "::/0"]
+    content {
+      description = "Minecraft server ingress traffic"
+      protocol    = "6"
+      source      = ingress_security_rules.value
+      stateless   = "true"
+      tcp_options {
+        max = "25545"
+        min = "25545"
+      }
     }
   }
   dynamic "ingress_security_rules" {
-    # Cloudflare IP ranges: https://www.cloudflare.com/ips-v4
+    # Cloudflare IP ranges:
+    # https://www.cloudflare.com/ips-v4
+    # https://www.cloudflare.com/ips-v6
     for_each = [
       "173.245.48.0/20", "103.21.244.0/22", "103.22.200.0/22", "103.31.4.0/22", "141.101.64.0/18",
       "108.162.192.0/18", "190.93.240.0/20", "188.114.96.0/20", "197.234.240.0/22", "198.41.128.0/17",
-      "162.158.0.0/15", "104.16.0.0/13", "104.24.0.0/14", "172.64.0.0/13", "131.0.72.0/22"
+      "162.158.0.0/15", "104.16.0.0/13", "104.24.0.0/14", "172.64.0.0/13", "131.0.72.0/22",
+      "2400:cb00::/32", "2606:4700::/32", "2803:f800::/32", "2405:b500::/32", "2405:8100::/32",
+      "2a06:98c0::/29", "2c0f:f248::/32"
     ]
     content {
       description = "Web map HTTP server ingress traffic"
@@ -164,6 +194,7 @@ resource "oci_core_instance" "aylas-one" {
   }
   create_vnic_details {
     assign_public_ip       = "true"
+    assign_ipv6ip          = "true"
     display_name           = "aylas-one-vnic"
     hostname_label         = "aylas-one"
     private_ip             = "10.0.0.100"
@@ -190,7 +221,7 @@ resource "oci_core_instance" "aylas-one" {
   }
 }
 
-output "aylas-one-ip" {
+output "aylas-one-ipv4" {
   value       = oci_core_instance.aylas-one.public_ip
   description = "aylas-one server public IPv4 address"
 }

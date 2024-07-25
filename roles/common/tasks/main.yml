@@ -202,6 +202,9 @@
 # default of two hours considered by the Linux kernel. SSH sessions that get
 # inactive are a prime candidate for being dropped because of this. See also:
 # https://bugs.launchpad.net/cloud-images/+bug/1838670
+# Despite the "ipv4" in the name of these settings, they also apply to IPv6,
+# as the TCP stack is shared among IP versions. See:
+# https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
 - name: Tweak TCP keepalive time
   become: true
   ansible.posix.sysctl:

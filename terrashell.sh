@@ -40,7 +40,7 @@ echo ' - terraform fmt'
 echo ' - terraform validate'
 echo ' - terraform apply -auto-approve (create and start instances)'
 echo ' - terraform destroy (stop and tear down instances)'
-echo ' - terraform output aylas-one-ip (get the aylas-one server public IP)'
+echo ' - terraform output aylas-one-ipv4 (get the aylas-one server public IPv4 address)'
 echo " - oci session authenticate --profile-name terraform-aylas --region $OCI_TENANCY_REGION (authenticate with OCI again)"
 
 exec "$SHELL"

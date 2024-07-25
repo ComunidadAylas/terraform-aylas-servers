@@ -91,6 +91,8 @@ improvements, or use parts of our configuration in your own deployments!
   SSH connectivity is lost.
 - 📊 Per-service **disk quotas** to guarantee the expected distribution of disk
   space and mitigate the impact of errant applications.
+- 🌐 **IPv6 support** for future-proofing and letting every client use the IP
+  stack version that works best for them.
 - 🔝 **Static analysis** checks are executed on each push by GitHub Actions
   runners to guarantee code quality.
 - 🙌 Due to the usage of vendor-agnostic IaC tools and standard Linux software,
