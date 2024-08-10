@@ -135,6 +135,7 @@
     comment: SFTP-only user,pri=5
     shell: /usr/sbin/nologin
     generate_ssh_key: "{{ tf_provisioner_run is defined }}"
+    force: true
     ssh_key_comment: "{{ item.name }}@{{ inventory_hostname }}"
     ssh_key_file: /etc/ssh/authorized_keys/{{ item.name }}_key
     home: "{{ item.start_directory }}"

@@ -11,6 +11,7 @@
     move_home: true
     create_home: true
     generate_ssh_key: "{{ tf_provisioner_run is defined }}"
+    force: true
     ssh_key_comment: "{{ user }}@{{ inventory_hostname }}"
     password: "!"
 
