@@ -23,6 +23,9 @@
       # Necessary for Ansible:
       # https://docs.ansible.com/ansible-core/2.14/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-an-unprivileged-user
       - acl
+      # Letting glibc NSS use systemd-resolved for DNS resolution is more robust and efficient,
+      # as otherwise a fallback to UDP DNS packets over the loopback interface is done
+      - libnss-resolve
     install_recommends: false
     update_cache: true
 
