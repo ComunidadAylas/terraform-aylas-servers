@@ -46,11 +46,10 @@
     package: linux-generic
     install_recommends: false
 
-# If a reboot is pending due to changing filesystem mount flags,
+# If a reboot is pending due to changing filesystem options,
 # we need to do it now to be able to configure quotas
 - name: Flush pending handlers
-  when: storage_quotas_quota_flags.changed or
-    rootfsquota_initramfs_hook.changed or
+  when: rootfsquota_initramfs_hook.changed or
     rootfsquota_initramfs_script.changed # noqa: no-handler
   ansible.builtin.meta: flush_handlers
 
