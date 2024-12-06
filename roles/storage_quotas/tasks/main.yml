@@ -4,17 +4,6 @@
     package: quota
     install_recommends: false
 
-- name: Enable group quotas for root filesystem
-  become: true
-  notify: Reboot
-  register: storage_quotas_quota_flags
-  ansible.posix.mount:
-    src: LABEL=cloudimg-rootfs
-    fstype: ext4
-    path: /
-    opts: discard,errors=remount-ro
-    state: present
-
 - name: Copy initial ramdisk root filesystem option tweak hook script
   become: true
   notify:
