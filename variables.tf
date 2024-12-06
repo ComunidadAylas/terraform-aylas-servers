@@ -25,9 +25,9 @@ variable "oci_profile" {
 variable "server_image" {
   description = "Base Linux image for the instance"
   type        = string
-  # Ubuntu 22.04 Minimal (AArch64, 2023.04.18-0)
+  # Ubuntu 24.04 Minimal (AArch64, 2024.10.08-0)
   # List of images available at https://docs.oracle.com/en-us/iaas/images/
-  default = "ocid1.image.oc1.eu-madrid-1.aaaaaaaally4556huuq5blmvbv2flxqeofmew5qo65wks36ngixpogr76oka"
+  default = "ocid1.image.oc1.eu-madrid-1.aaaaaaaavc2jr2yqm7xxhthlhuae3aodwfvxhyjes5g4iimkr3irc3nhkf7q"
 }
 
 variable "master_user_public_ssh_key" {
