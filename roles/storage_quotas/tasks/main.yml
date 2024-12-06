@@ -12,24 +12,57 @@
     src: LABEL=cloudimg-rootfs
     fstype: ext4
     path: /
-    opts: discard,errors=remount-ro,jqfmt=vfsv1,grpjquota=group.quota
+    opts: discard,errors=remount-ro
     state: present
 
-- name: Prevent Oracle kernel updates to ensure quota modules compatibility
+- name: Copy initial ramdisk root filesystem option tweak hook script
   become: true
-  when: pin_oracle_kernel_version
-  loop:
-    - linux-oracle
-    - linux-image-oracle
-    - linux-headers-oracle
-  ansible.builtin.dpkg_selections:
-    name: "{{ item }}"
-    selection: hold
+  notify:
+    - Regenerate initial ramdisk image
+    - Reboot
+  register: rootfsquota_initramfs_hook
+  ansible.builtin.copy:
+    src: rootfsquota_initramfs_hook
+    dest: /etc/initramfs-tools/hooks/rootfsquota
+    mode: u=rwx,g=rx,o=rx
+
+- name: Copy initial ramdisk root filesystem option tweak boot script
+  become: true
+  notify:
+    - Regenerate initial ramdisk image
+    - Reboot
+  register: rootfsquota_initramfs_script
+  ansible.builtin.copy:
+    src: rootfsquota_initramfs_script
+    dest: /etc/initramfs-tools/scripts/local-bottom/rootfsquota
+    mode: u=rwx,g=rx,o=rx
+
+# Swapping the kernel image with the generic one is needed because the Oracle kernel does
+# not reliably ship modules needed for filesystem quota support. In the past they used to,
+# but any security advantage we could get from the smaller image is thus offset by the need
+# to keep the kernel image version pinned. See:
+# https://patchwork.ozlabs.org/project/linux-ext4/patch/20200215012738.565735-1-tytso@mit.edu/
+# https://cateee.net/lkddb/web-lkddb/QFMT_V2.html
+- name: Remove Oracle kernel package
+  become: true
+  ansible.builtin.apt:
+    package: linux-oracle
+    state: absent
+    purge: true
+    autoremove: true
+
+- name: Install generic Ubuntu kernel package
+  become: true
+  ansible.builtin.apt:
+    package: linux-generic
+    install_recommends: false
 
 # If a reboot is pending due to changing filesystem mount flags,
 # we need to do it now to be able to configure quotas
 - name: Flush pending handlers
-  when: storage_quotas_quota_flags.changed # noqa: no-handler
+  when: storage_quotas_quota_flags.changed or
+    rootfsquota_initramfs_hook.changed or
+    rootfsquota_initramfs_script.changed # noqa: no-handler
   ansible.builtin.meta: flush_handlers
 
 - name: Set up quota files

@@ -1,0 +1,4 @@
+- name: Regenerate initial ramdisk image
+  become: true
+  changed_when: true
+  ansible.builtin.command: update-initramfs -u
