@@ -53,7 +53,7 @@ jobs:
       - name: 🧰 Set up Poetry
         env:
           # renovate: datasource=pypi depName=poetry
-          POETRY_VERSION: 1.8.4
+          POETRY_VERSION: 1.8.5
         run: pipx install poetry==${{ env.POETRY_VERSION }}
 
       - name: 🧰 Set up Python
