@@ -1,0 +1,11 @@
+[global]
+use-profiles = ["common"]
+
+[repository]
+repository = "/backups/{{ item[0].identifier }}"
+
+[repository.hooks]
+run-after = ["/etc/rustic/mega_sync_{{ item[0].identifier }}.sh"]
+
+[backup]
+ignore-devid = true

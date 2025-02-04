@@ -29,6 +29,16 @@
     group: backup
     mode: u=rwx,g=rwx,o=
 
+- name: Create local backup repository directories
+  become: true
+  loop: "{{ backup_profiles }}"
+  ansible.builtin.file:
+    path: /backups/{{ item.identifier }}
+    state: directory
+    owner: root
+    group: backup
+    mode: u=rwx,g=rwx,o=
+
 - name: Copy common rustic configuration parameters profile
   become: true
   ansible.builtin.template:
@@ -50,7 +60,7 @@
 
 - name: Copy base rustic backup profile configuration files
   become: true
-  loop: "{{ backup_profiles | product(['cloud_mega', 'mirrored_onsite_local']) }}"
+  loop: "{{ backup_profiles | product(['mega_mirrored_onsite_local']) }}"
   ansible.builtin.template:
     src: rustic/{{ item[1] }}.toml
     dest: /etc/rustic/{{ item[1] }}_{{ item[0].identifier }}.toml
@@ -58,18 +68,19 @@
     group: backup
     mode: u=rw,g=rw,o=
 
-- name: Create local backup repository directory
+- name: Copy helper rustic repository synchronization scripts
   become: true
-  ansible.builtin.file:
-    path: /backups
-    state: directory
+  loop: "{{ backup_profiles }}"
+  ansible.builtin.template:
+    src: rustic/mega_sync.sh
+    dest: /etc/rustic/mega_sync_{{ item.identifier }}.sh
     owner: root
     group: backup
     mode: u=rwx,g=rwx,o=
 
 - name: Copy backup management script
   become: true
-  ansible.builtin.template:
+  ansible.builtin.copy:
     src: backctl
     dest: /usr/sbin/backctl
     owner: root

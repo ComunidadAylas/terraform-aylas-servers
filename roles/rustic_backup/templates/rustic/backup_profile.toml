@@ -1,5 +1,5 @@
 [global]
-use-profiles = ["mirrored_onsite_local_{{ item.identifier }}"]
+use-profiles = ["mega_mirrored_onsite_local_{{ item.identifier }}"]
 
 [backup]
 tags = ["service:{{ item.identifier }}"]

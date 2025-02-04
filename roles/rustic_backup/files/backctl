@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -e
 
 # Frontend CLI to rustic to implement a backup policy of synthetic full backups,
 # with older backups automatically being purged over time.
@@ -38,9 +38,7 @@ fi
 case "$1" in
   backup)
     rustic -P "$ID" backup --init --set-compression=20 --log-level=error ${PERSISTENT_BACKUP:+--delete-never} --label="$LABEL"
-    rustic -P "$ID" forget --log-level=error
-    rustic -P "$ID" copy --init --log-level=error
-    rustic -P "cloud_mega_$ID" forget --log-level=error;;
+    rustic -P "$ID" forget --log-level=error;;
 
   interactive_restore)
     rustic -P "$ID" snapshots --all --log-level=error
