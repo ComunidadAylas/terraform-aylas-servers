@@ -12,10 +12,9 @@ mega-sync "$BACKUP_DIR" "$MEGA_FOLDER" || true
 echo "$(date) Waiting for repository to be synchronized..."
 
 while
-  sync_status=$(mega-sync --enable --output-cols='STATUS' "$BACKUP_DIR")
-  sync_status=$(echo "$sync_status" | tail -1)
   sleep 1
-  [ "$sync_status" != 'Synced' ]
+  sync_status=$(mega-sync --enable --output-cols='STATUS' "$BACKUP_DIR")
+  [ "$(echo "$sync_status" | tail -1)" != 'Synced' ]
 do
   sleep 1
 done
