@@ -17,6 +17,7 @@ python3 -m venv "$WORKDIR"/venv
 . "$WORKDIR"/venv/bin/activate
 pip install poetry
 poetry install
+ansible-galaxy install -r requirements.yml
 
 echo
 echo "> Downloading Terraform v$TERRAFORM_VERSION..."
