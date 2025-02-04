@@ -16,9 +16,10 @@ RUN apt-get update && \
 	apt-get install -yq \
 		git autoconf crossbuild-essential-arm64 checkinstall libtool \
 		libcrypto++-dev:arm64 libz-dev:arm64 libsqlite3-dev:arm64 libssl-dev:arm64 libcurl4-gnutls-dev:arm64 \
-		libreadline-dev:arm64 libpcre3-dev:arm64 libsodium-dev:arm64 libc-ares-dev:arm64 libicu-dev:arm64 libuv1-dev:arm64 && \
-	git clone --recurse-submodules https://github.com/meganz/MEGAcmd.git /MEGAcmd && \
-	git -C /MEGAcmd checkout ${MEGACMD_VERSION}
+		libreadline-dev:arm64 libpcre3-dev:arm64 libsodium-dev:arm64 libc-ares-dev:arm64 libicu-dev:arm64 && \
+	git clone https://github.com/meganz/MEGAcmd.git /MEGAcmd && \
+	git -C /MEGAcmd checkout ${MEGACMD_VERSION} && \
+	git -C /MEGAcmd submodule update --init --recursive
 
 # Configuring with disabled features is necessary to build for updated systems:
 # https://github.com/meganz/sdk/issues/2576
@@ -36,7 +37,7 @@ RUN ./autogen.sh && \
 		--strip=no \
 		--pkgversion=$MEGACMD_PKG_VERSION --pkgarch=arm64 \
 		--maintainer="MEGA Linux Team \\<linux@mega.co.nz\\>" \
-		--requires="libatomic1 \(\>= 4.8\), libc-ares2 \(\>= 1.11.0~rc1\), libc6 \(\>= 2.30\), libgcc-s1 \(\>= 4.0\), libpcrecpp0v5 \(\>= 7.7\), libssl3, libstdc++6 \(\>= 9\), libzen0v5 \(\>= 0.4.31-2~\), zlib1g \(\>= 1:1.2.11.dfsg\), libuv1t64 \(\>= 1.48.0\), libcrypto++8, libicu74, apt-transport-https, gpg" \
+		--requires="libatomic1 \(\>= 4.8\), libc-ares2 \(\>= 1.11.0~rc1\), libc6 \(\>= 2.30\), libgcc-s1 \(\>= 4.0\), libpcrecpp0v5 \(\>= 7.7\), libssl3, libstdc++6 \(\>= 9\), libzen0v5 \(\>= 0.4.31-2~\), zlib1g \(\>= 1:1.2.11.dfsg\), libcrypto++8, libicu74, apt-transport-https, gpg" \
 		make install -j$(nproc)
 
 ENTRYPOINT cat /MEGAcmd/megacmd_*_arm64.deb
