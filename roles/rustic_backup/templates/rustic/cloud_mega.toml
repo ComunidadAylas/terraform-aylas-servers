@@ -1,0 +1,44 @@
+[global]
+use-profiles = ["common"]
+
+[repository]
+# While rustic has an rclone backend, and rclone in turn has support for MEGA,
+# such support is unreliable: in our case, logging in doesn't even work with a
+# 402 error. Therefore, use MEGAcmd's WebDAV server as a more reliable interface
+# to MEGA. References:
+# - https://github.com/rclone/rclone/issues/8270
+# - https://rclone.org/mega/#failure-to-log-in
+# - https://forum.rclone.org/t/got-banned-from-mega-due-to-massive-overhead/49308
+# It should be noted that even using MEGAcmd's WebDAV server through OpenDAL is
+# unreliable: it failed to upload some files that lead to repository corruption
+# during a initial big backup. Using such a server through rclone may be an option,
+# but that's not guaranteed to be flawless either; see:
+# https://forum.rclone.org/t/rclone-w-mega-via-webdav-tight-limits-endless-retries-crashing-megacmd/45748/1
+# Why exactly MEGA is so cursed when it comes to integrations with other programs
+# despite having official open-source SDKs, not being an obscure service, and an
+# otherwise pretty good free tier, I have no idea. For all I know, perhaps their
+# code is too complex or spaghetti for any volunteers to digest, especially when
+# considering the E2E encryption sprankled on top?
+repository = "opendal:webdav"
+
+[repository.hooks]
+run-before = [
+  { command = "/bin/sh", args = [
+    "-c",
+    "mega-login '{{ item[0].mega_user }}' '{{ item[0].mega_password }}' || true",
+  ] },
+  { command = "mega-webdav", args = [
+    "/{{ item[0].mega_folder_name }}",
+    # Use a deterministically random port within a range unassigned by IANA to avoid conflicts
+    "--port={{ 43442 + item[0].identifier | md5 | int(base=16) % 681 }}",
+  ] },
+]
+run-finally = [
+  { command = "/bin/sh", args = [
+    "-c",
+    "mega-webdav -d '/{{ item[0].mega_folder_name }}' || true",
+  ] },
+]
+
+[repository.options]
+endpoint = "http://127.0.0.1:{{ 43442 + item[0].identifier | md5 | int(base=16) % 681 }}/{{ item[0].mega_folder_id }}/{{ item[0].mega_folder_name | urlencode }}"

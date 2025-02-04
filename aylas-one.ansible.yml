@@ -29,8 +29,15 @@
         java_vm_heap_memory: "3584M"
         cgroup_high_memory: "4864M"
         cgroup_max_memory: "5G"
-        backup_exclude_file_list: |
-          /srv/khron/bluemap
+        backup_file_globs:
+          # Backup everything but data that can be easily regenerated
+          - "!/srv/khron/versions"
+          - "!/srv/khron/libraries"
+          - "!/srv/khron/cache"
+          - "!/srv/khron/plugins/**/.archive-unpack"
+          - "!/srv/khron/plugins/**/.paper-remapped"
+          - "!/srv/khron/restart.sh"
+          #- "!/srv/khron/bluemap/web/maps" # TODO analyze storage usage evolution over time and remove or uncomment this
         discord_notifications:
           # Generated with:
           # $ ansible-vault encrypt_string --vault-password-file secrets/vault_password --stdin-name 'webhook_url'

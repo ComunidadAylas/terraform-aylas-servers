@@ -1,0 +1,11 @@
+[global]
+use-profiles = ["common"]
+
+[repository]
+repository = "/backups"
+
+[backup]
+ignore-devid = true
+
+[copy]
+targets = ["cloud_mega_{{ item[0].identifier }}"]

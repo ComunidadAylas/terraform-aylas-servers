@@ -138,5 +138,5 @@ $RECYCLE.BIN/
 # Private keys for SSH authentication
 /login_keys/
 
-# Ansible Vault secrets and duplicity backup passphrase
+# Ansible Vault secrets and backup password
 /secrets/

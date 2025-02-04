@@ -1,0 +1,12 @@
+[global]
+use-profiles = ["mirrored_onsite_local_{{ item.identifier }}"]
+
+[backup]
+tags = ["service:{{ item.identifier }}"]
+globs = {{ item.globs }}
+
+[[backup.snapshots]]
+sources = ["{{ item.directory }}"]
+
+[snapshot-filter]
+filter-tags = ["service:{{ item.identifier }}"]

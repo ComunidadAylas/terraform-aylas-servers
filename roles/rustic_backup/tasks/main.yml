@@ -1,0 +1,90 @@
+- name: Install rustic
+  become: true
+  ansible.builtin.copy:
+    src: rustic/bin/rustic
+    dest: /usr/local/bin/rustic
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+
+- name: Install MEGAcmd tools
+  become: true
+  # Updating this cache is necessary to properly resolve dynamic objects.
+  # See: https://man7.org/linux/man-pages/man8/ld.so.8.html
+  notify: Update dynamic linker shared objects cache
+  ansible.builtin.apt:
+    deb: https://raw.githubusercontent.com/ComunidadAylas/terraform-aylas-servers/master/vendor/megacmd/megacmd_arm64.deb
+
+- name: Ensure that backup repository owner group exists
+  become: true
+  ansible.builtin.group:
+    name: backup
+
+- name: Create rustic configuration profiles directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/rustic
+    state: directory
+    owner: root
+    group: backup
+    mode: u=rwx,g=rwx,o=
+
+- name: Copy common rustic configuration parameters profile
+  become: true
+  ansible.builtin.template:
+    src: rustic/common.toml
+    dest: /etc/rustic/common.toml
+    owner: root
+    group: backup
+    mode: u=rw,g=rw,o=
+
+- name: Copy rustic backup profiles
+  become: true
+  loop: "{{ backup_profiles }}"
+  ansible.builtin.template:
+    src: rustic/backup_profile.toml
+    dest: /etc/rustic/{{ item.identifier }}.toml
+    owner: root
+    group: backup
+    mode: u=rw,g=rw,o=
+
+- name: Copy base rustic backup profile configuration files
+  become: true
+  loop: "{{ backup_profiles | product(['cloud_mega', 'mirrored_onsite_local']) }}"
+  ansible.builtin.template:
+    src: rustic/{{ item[1] }}.toml
+    dest: /etc/rustic/{{ item[1] }}_{{ item[0].identifier }}.toml
+    owner: root
+    group: backup
+    mode: u=rw,g=rw,o=
+
+- name: Create local backup repository directory
+  become: true
+  ansible.builtin.file:
+    path: /backups
+    state: directory
+    owner: root
+    group: backup
+    mode: u=rwx,g=rwx,o=
+
+- name: Copy backup management script
+  become: true
+  ansible.builtin.template:
+    src: backctl
+    dest: /usr/sbin/backctl
+    owner: root
+    group: backup
+    mode: u=rwx,g=rwx,o=rx
+
+- name: Allow users to run backctl as root
+  become: true
+  loop: "{{ backup_profiles }}"
+  when: item.allow_sudo_backctl is defined
+  ansible.builtin.copy:
+    content: >
+      {{ item.allow_sudo_backctl.from }} ALL=(root) TIMEOUT=2h NOPASSWD:
+      /usr/sbin/backctl -i {{ item.identifier }} *
+    dest: /etc/sudoers.d/200-{{ item.identifier }}-backctl
+    owner: root
+    group: root
+    mode: u=rw,g=rw,o=

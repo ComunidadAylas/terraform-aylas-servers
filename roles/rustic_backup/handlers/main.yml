@@ -1,0 +1,4 @@
+- name: Update dynamic linker shared objects cache
+  become: true
+  changed_when: true
+  ansible.builtin.command: ldconfig

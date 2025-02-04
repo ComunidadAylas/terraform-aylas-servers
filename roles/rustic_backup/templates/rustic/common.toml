@@ -1,0 +1,6 @@
+[repository]
+password = "{{ lookup('ansible.builtin.password', 'secrets/backup_password', length=32) }}"
+
+[forget]
+prune = true
+keep-within = "3months"

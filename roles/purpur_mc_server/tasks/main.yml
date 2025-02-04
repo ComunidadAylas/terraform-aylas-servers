@@ -219,7 +219,7 @@
   become: true
   notify: Persist iptables configuration
   when: extra_services is defined
-  loop: "{{ extra_services | product(['ipv4', 'ipv6']) | list }}"
+  loop: "{{ extra_services | product(['ipv4', 'ipv6']) }}"
   ansible.builtin.iptables:
     chain: INPUT
     ctstate: NEW

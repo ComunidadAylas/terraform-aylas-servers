@@ -42,15 +42,18 @@ improvements, or use parts of our configuration in your own deployments!
   workloads.
 - 💾 Automated [**3-2-1 backup
   strategy**](https://www.backblaze.com/blog/the-3-2-1-backup-strategy/) powered
-  by [duplicity](https://duplicity.gitlab.io/):
-  - We store the live data, a local backup collection and a remote backup
-    collection on [MEGA](https://mega.nz/).
-  - Backup tarballs are compressed with Gzip, encrypted with a symmetric cipher
-    using GPG, and usable even if slightly corrupted thanks to redundant [PAR2
-    archives](https://en.wikipedia.org/wiki/Parchive).
-  - The server is automatically restarted every few days to do an incremental
-    backup of its files. Before updating to a new Minecraft version, the
-    incremental backups are deleted and a full backup is made.
+  by [rustic](https://rustic.cli.rs/):
+  - We store the live data, a local backup repository and a remote backup
+    repository on [MEGA](https://mega.nz/).
+  - Backup repositories are compressed with Zstd at level 20, and encrypted with
+    a symmetric cipher.
+  - The server is automatically restarted every few days to do a synthetic full
+    backup (i.e., logically full backups implemented through forever-incremental
+    backup blobs that get assembled into snapshots) of its files. Before
+    updating to a new Minecraft version, a special backup that does not get
+    automatically deleted is made. Otherwise, backup snapshots are automatically
+    deleted after a few months, and the backup repositories pruned to claim
+    storage space back.
   - A notification is sent to a Discord channel via
     [webhooks](https://discord.com/developers/docs/resources/webhook) when a
     backup is done. (This can be disabled by not defining the webhook URL in the
