@@ -37,7 +37,7 @@
     state: directory
     owner: root
     group: backup
-    mode: u=rwx,g=rwx,o=
+    mode: u=rwx,g=rws,o=
 
 - name: Copy common rustic configuration parameters profile
   become: true
