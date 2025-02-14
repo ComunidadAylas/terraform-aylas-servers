@@ -35,7 +35,7 @@ improvements, or use parts of our configuration in your own deployments!
 - 🖥️ Sets up a 24/7 **[Purpur](https://purpurmc.org/) Minecraft server using
   the recommended [brucethemoose's state of the art JVM
   flags](https://github.com/brucethemoose/Minecraft-Performance-Flags-Benchmark)**
-  on a minimal, standard **ARM Ubuntu 22.04 virtual machine** (a.k.a. instance).
+  on a minimal, standard **ARM Ubuntu 24.04 virtual machine** (a.k.a. instance).
   [Oracle GraalVM](https://www.graalvm.org/downloads/) (formerly Oracle GraalVM
   Enterprise Edition) is used, leveraging its top-tier compiler based on JVMCI,
   which generates significantly better optimized code than OpenJDK's C2 for some
