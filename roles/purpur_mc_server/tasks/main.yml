@@ -64,9 +64,7 @@
       # controller will do the following before starting the server for the
       # next time:
       #
-      # - Do a full backup, removing previous incremental backups (so data
-      #   contained in those incremental backups since the last full backup
-      #   will be lost).
+      # - Do a full backup.
       # - Download the latest Purpur launcher for the specified Minecraft
       #   version.
       #
