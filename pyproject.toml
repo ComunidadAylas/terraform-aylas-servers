@@ -11,7 +11,7 @@ package-mode = false
 python = "^3.11"
 ansible = "^11.0.0"
 oci-cli = "^3.31.0"
-ansible-lint = { version = "^24.0.0", markers = "platform_system != 'Windows'" }
+ansible-lint = { version = "^25.0.0", markers = "platform_system != 'Windows'" }
 
 [build-system]
 requires = ["poetry-core"]
