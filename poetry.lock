@@ -2,13 +2,13 @@
 
 [[package]]
 name = "ansible"
-version = "11.6.0"
+version = "11.7.0"
 description = "Radically simple IT automation"
 optional = false
 python-versions = ">=3.11"
 files = [
-    {file = "ansible-11.6.0-py3-none-any.whl", hash = "sha256:5b9c19d6a1080011c14c821bc7e6f8fd5b2a392219cbf2ced9be05e6d447d8cd"},
-    {file = "ansible-11.6.0.tar.gz", hash = "sha256:934a948caa3ec1a3eb277e7ab1638b808b074a6e0c46045794cde7b637e275d8"},
+    {file = "ansible-11.7.0-py3-none-any.whl", hash = "sha256:caa56fc92e5bea012abf37f08aa348da27d2fcaf94bf398e24cadcb618a4dc3b"},
+    {file = "ansible-11.7.0.tar.gz", hash = "sha256:f9df37c71d407f65bcb9c5c06c9918e297d9ea74b5cdaf5926c4c9aa9e44db5f"},
 ]
 
 [package.dependencies]
@@ -56,13 +56,13 @@ resolvelib = ">=0.5.3,<1.1.0"
 
 [[package]]
 name = "ansible-lint"
-version = "25.5.0"
+version = "25.6.1"
 description = "Checks playbooks for practices and behavior that could potentially be improved"
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "ansible_lint-25.5.0-py3-none-any.whl", hash = "sha256:25b03f3b58a84bd38f86532a08e38b652252baf175142988cb1071aee49a0eca"},
-    {file = "ansible_lint-25.5.0.tar.gz", hash = "sha256:4182520f233eef4248bc4cf4b6074e25cdaf5be21cf9be944aabc85df5407e9c"},
+    {file = "ansible_lint-25.6.1-py3-none-any.whl", hash = "sha256:69fe294a3cc30d8819b5a30625a7e25225f48558cadb83ad3d4dec597c1b8c2c"},
+    {file = "ansible_lint-25.6.1.tar.gz", hash = "sha256:6a1dd2b7a9f3f202c9e92a6c80296ff33ca863348c3acf978f80fb0d4536dce4"},
 ]
 
 [package.dependencies]
@@ -76,7 +76,7 @@ packaging = ">=22.0"
 pathspec = ">=0.10.3"
 pyyaml = ">=6.0.2"
 referencing = ">=0.36.2"
-"ruamel.yaml" = ">=0.18.5,<0.18.7 || >0.18.7,<0.18.8 || >0.18.8"
+"ruamel.yaml" = ">=0.18.11"
 subprocess-tee = ">=0.4.1"
 wcmatch = [
     {version = ">=8.1.2", markers = "python_version < \"3.12\""},
@@ -86,7 +86,7 @@ yamllint = ">=1.34.0"
 
 [package.extras]
 docs = ["mkdocs-ansible (>=25.5.0)"]
-test = ["black", "coverage-enable-subprocess", "coverage[toml] (>=6.4.4)", "ipdb", "ipython", "jmespath", "license-expression (>=30.3.0)", "mypy", "netaddr", "pip", "psutil", "pylint", "pytest (>=7.2.2)", "pytest-instafail (>=0.5.0)", "pytest-mock", "pytest-plus (>=0.6)", "pytest-sugar", "pytest-xdist[psutil,setproctitle] (>=2.1.0)", "ruamel-yaml-clib", "ruamel.yaml (>=0.17.31)", "tox (>=4.0.0)", "tox (>=4.24.2)", "tox-extra (>=2.1)", "tox-uv (>=1.25)", "types-jsonschema", "types-pyyaml"]
+test = ["black", "coverage-enable-subprocess", "coverage[toml] (>=6.4.4)", "ipdb", "ipython", "jmespath", "license-expression (>=30.3.0)", "mypy", "netaddr", "pip", "psutil", "pylint", "pytest (>=7.2.2)", "pytest-instafail (>=0.5.0)", "pytest-mock", "pytest-plus (>=0.6)", "pytest-sugar", "pytest-xdist[psutil,setproctitle] (>=2.1.0)", "ruamel-yaml-clib", "ruamel.yaml (>=0.18.11)", "tox (>=4.0.0)", "tox (>=4.24.2)", "tox-extra (>=2.1)", "tox-uv (>=1.25)", "types-jsonschema", "types-pyyaml"]
 
 [[package]]
 name = "arrow"
@@ -545,13 +545,13 @@ files = [
 
 [[package]]
 name = "oci"
-version = "2.154.1"
+version = "2.155.0"
 description = "Oracle Cloud Infrastructure Python SDK"
 optional = false
 python-versions = "*"
 files = [
-    {file = "oci-2.154.1-py3-none-any.whl", hash = "sha256:03c7a1881b9a25d2ad4393760fc7a15f7e14c23dde724d77bb6f5f6f1f0c4996"},
-    {file = "oci-2.154.1.tar.gz", hash = "sha256:44b034ca7c08e3809d9a4244b075af9fdd1d45cf8f05cee57722b59a15d3a04f"},
+    {file = "oci-2.155.0-py3-none-any.whl", hash = "sha256:ccfb7f3b0c13fedd26a567a64c12bcc6523b76ed61bdff13bbc2d257c267de29"},
+    {file = "oci-2.155.0.tar.gz", hash = "sha256:9718347918ef34539668539511f094ef0053a40e96e6ebc2c08742786a7eaeef"},
 ]
 
 [package.dependencies]
@@ -567,13 +567,13 @@ adk = ["docstring-parser (>=0.16)", "mcp (>=1.6.0)", "pydantic (>=2.10.6)", "ric
 
 [[package]]
 name = "oci-cli"
-version = "3.58.1"
+version = "3.62.0"
 description = "Oracle Cloud Infrastructure CLI"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "oci_cli-3.58.1-py3-none-any.whl", hash = "sha256:7d4b8e036529bd7d959653d5f543580212f75c11593dc21dceaffdb7f7547189"},
-    {file = "oci_cli-3.58.1.tar.gz", hash = "sha256:5f9d2f2a26b32958d86f5887a02aed837a2218b00e26ecd8599ee82b51f83db1"},
+    {file = "oci_cli-3.62.0-py3-none-any.whl", hash = "sha256:d3db2a305b170dcacf10da1a043ce22c382f370322dfe0e938ab9e137e7b4396"},
+    {file = "oci_cli-3.62.0.tar.gz", hash = "sha256:419273c6314d5d63e6adaace2cedb8e6f4dd439976ed3b9f8093705a26b0e7de"},
 ]
 
 [package.dependencies]
@@ -582,7 +582,7 @@ certifi = ">=2025.1.31"
 click = "8.0.4"
 cryptography = ">=3.2.1,<46.0.0"
 jmespath = "0.10.0"
-oci = "2.154.1"
+oci = "2.155.0"
 prompt-toolkit = {version = ">=3.0.38,<=3.0.43", markers = "python_version > \"3.6\""}
 pyOpenSSL = ">=17.5.0,<25.0.0"
 python-dateutil = ">=2.5.3,<3.0.0"
@@ -910,17 +910,17 @@ files = [
 
 [[package]]
 name = "ruamel-yaml"
-version = "0.18.6"
+version = "0.18.14"
 description = "ruamel.yaml is a YAML parser/emitter that supports roundtrip preservation of comments, seq/map flow style, and map key order"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "ruamel.yaml-0.18.6-py3-none-any.whl", hash = "sha256:57b53ba33def16c4f3d807c0ccbc00f8a6081827e81ba2491691b76882d0c636"},
-    {file = "ruamel.yaml-0.18.6.tar.gz", hash = "sha256:8b27e6a217e786c6fbe5634d8f3f11bc63e0f80f6a5890f28863d9c45aac311b"},
+    {file = "ruamel.yaml-0.18.14-py3-none-any.whl", hash = "sha256:710ff198bb53da66718c7db27eec4fbcc9aa6ca7204e4c1df2f282b6fe5eb6b2"},
+    {file = "ruamel.yaml-0.18.14.tar.gz", hash = "sha256:7227b76aaec364df15936730efbf7d72b30c0b79b1d578bbb8e3dcb2d81f52b7"},
 ]
 
 [package.dependencies]
-"ruamel.yaml.clib" = {version = ">=0.2.7", markers = "platform_python_implementation == \"CPython\" and python_version < \"3.13\""}
+"ruamel.yaml.clib" = {version = ">=0.2.7", markers = "platform_python_implementation == \"CPython\" and python_version < \"3.14\""}
 
 [package.extras]
 docs = ["mercurial (>5.7)", "ryd"]
