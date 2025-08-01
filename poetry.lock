@@ -2,17 +2,17 @@
 
 [[package]]
 name = "ansible"
-version = "11.6.0"
+version = "11.8.0"
 description = "Radically simple IT automation"
 optional = false
 python-versions = ">=3.11"
 files = [
-    {file = "ansible-11.6.0-py3-none-any.whl", hash = "sha256:5b9c19d6a1080011c14c821bc7e6f8fd5b2a392219cbf2ced9be05e6d447d8cd"},
-    {file = "ansible-11.6.0.tar.gz", hash = "sha256:934a948caa3ec1a3eb277e7ab1638b808b074a6e0c46045794cde7b637e275d8"},
+    {file = "ansible-11.8.0-py3-none-any.whl", hash = "sha256:a2cd44c0d2c03972f5d676d1b024d09dd3d3edbd418fb0426f4dd356fca9e5b1"},
+    {file = "ansible-11.8.0.tar.gz", hash = "sha256:28ea032c77f344bb8ea4d7d39f9a5d4e935e6c8b60836c8c8a28b9cf6c9adb1a"},
 ]
 
 [package.dependencies]
-ansible-core = ">=2.18.6,<2.19.0"
+ansible-core = ">=2.18.7,<2.19.0"
 
 [[package]]
 name = "ansible-compat"
@@ -38,13 +38,13 @@ test = ["coverage", "pip", "pytest (>=7.2.0)", "pytest-instafail", "pytest-mock"
 
 [[package]]
 name = "ansible-core"
-version = "2.18.6"
+version = "2.18.7"
 description = "Radically simple IT automation"
 optional = false
 python-versions = ">=3.11"
 files = [
-    {file = "ansible_core-2.18.6-py3-none-any.whl", hash = "sha256:12a34749a7b20f0f1536bd3e3b2e137341867e4642e351273e96647161f595c0"},
-    {file = "ansible_core-2.18.6.tar.gz", hash = "sha256:25bb20ce1516a1b7307831b263cef684043b3720711466bd9d4164e5fd576557"},
+    {file = "ansible_core-2.18.7-py3-none-any.whl", hash = "sha256:ac42ecb480fb98890d338072f7298cd462fb2117da6700d989c7ae688962ba69"},
+    {file = "ansible_core-2.18.7.tar.gz", hash = "sha256:1a129bf9fcd5dca2b17e83ce77147ee2fbc3c51a4958970152897cc5b6d0aae7"},
 ]
 
 [package.dependencies]
@@ -56,13 +56,13 @@ resolvelib = ">=0.5.3,<1.1.0"
 
 [[package]]
 name = "ansible-lint"
-version = "25.5.0"
+version = "25.7.0"
 description = "Checks playbooks for practices and behavior that could potentially be improved"
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "ansible_lint-25.5.0-py3-none-any.whl", hash = "sha256:25b03f3b58a84bd38f86532a08e38b652252baf175142988cb1071aee49a0eca"},
-    {file = "ansible_lint-25.5.0.tar.gz", hash = "sha256:4182520f233eef4248bc4cf4b6074e25cdaf5be21cf9be944aabc85df5407e9c"},
+    {file = "ansible_lint-25.7.0-py3-none-any.whl", hash = "sha256:9d9ed35e57abbf6e40f55026ba193e3660930089ae1c65c376281fd84ea19842"},
+    {file = "ansible_lint-25.7.0.tar.gz", hash = "sha256:9afcf419997ce1ffc57acaa3a56f377bce8ceeb9db10e6ab84fd565d09be408b"},
 ]
 
 [package.dependencies]
@@ -76,7 +76,7 @@ packaging = ">=22.0"
 pathspec = ">=0.10.3"
 pyyaml = ">=6.0.2"
 referencing = ">=0.36.2"
-"ruamel.yaml" = ">=0.18.5,<0.18.7 || >0.18.7,<0.18.8 || >0.18.8"
+"ruamel.yaml" = ">=0.18.11"
 subprocess-tee = ">=0.4.1"
 wcmatch = [
     {version = ">=8.1.2", markers = "python_version < \"3.12\""},
@@ -86,7 +86,8 @@ yamllint = ">=1.34.0"
 
 [package.extras]
 docs = ["mkdocs-ansible (>=25.5.0)"]
-test = ["black", "coverage-enable-subprocess", "coverage[toml] (>=6.4.4)", "ipdb", "ipython", "jmespath", "license-expression (>=30.3.0)", "mypy", "netaddr", "pip", "psutil", "pylint", "pytest (>=7.2.2)", "pytest-instafail (>=0.5.0)", "pytest-mock", "pytest-plus (>=0.6)", "pytest-sugar", "pytest-xdist[psutil,setproctitle] (>=2.1.0)", "ruamel-yaml-clib", "ruamel.yaml (>=0.17.31)", "tox (>=4.0.0)", "tox (>=4.24.2)", "tox-extra (>=2.1)", "tox-uv (>=1.25)", "types-jsonschema", "types-pyyaml"]
+lock = ["ansible-compat (==25.6.0)", "attrs (==25.3.0)", "black (==25.1.0)", "bracex (==2.6)", "cffi (==1.17.1)", "click (==8.2.1)", "cryptography (==45.0.5)", "filelock (==3.18.0)", "importlib-metadata (==8.7.0)", "jinja2 (==3.1.6)", "jsonschema (==4.24.0)", "jsonschema-specifications (==2025.4.1)", "markupsafe (==3.0.2)", "mypy-extensions (==1.1.0)", "packaging (==25.0)", "pathspec (==0.12.1)", "platformdirs (==4.3.8)", "pycparser (==2.22)", "pyyaml (==6.0.2)", "referencing (==0.36.2)", "rpds-py (==0.26.0)", "ruamel-yaml (==0.18.14)", "subprocess-tee (==0.4.2)", "wcmatch (==10.1)", "yamllint (==1.37.1)", "zipp (==3.23.0)"]
+test = ["ansible-creator (>=24.6.0)", "black", "coverage-enable-subprocess", "coverage[toml] (>=6.4.4)", "ipdb", "ipython", "jmespath", "license-expression (>=30.3.0)", "mypy", "netaddr", "pip", "psutil", "pylint", "pytest (>=7.2.2)", "pytest-instafail (>=0.5.0)", "pytest-mock", "pytest-plus (>=0.6)", "pytest-sugar", "pytest-xdist[psutil,setproctitle] (>=2.1.0)", "ruamel-yaml-clib", "ruamel.yaml (>=0.18.11)", "tox (>=4.0.0)", "tox (>=4.24.2)", "tox-extra (>=2.1)", "tox-uv (>=1.25)", "types-jsonschema", "types-pyyaml"]
 
 [[package]]
 name = "arrow"
@@ -545,13 +546,13 @@ files = [
 
 [[package]]
 name = "oci"
-version = "2.154.1"
+version = "2.157.0"
 description = "Oracle Cloud Infrastructure Python SDK"
 optional = false
 python-versions = "*"
 files = [
-    {file = "oci-2.154.1-py3-none-any.whl", hash = "sha256:03c7a1881b9a25d2ad4393760fc7a15f7e14c23dde724d77bb6f5f6f1f0c4996"},
-    {file = "oci-2.154.1.tar.gz", hash = "sha256:44b034ca7c08e3809d9a4244b075af9fdd1d45cf8f05cee57722b59a15d3a04f"},
+    {file = "oci-2.157.0-py3-none-any.whl", hash = "sha256:84351f84bb453eb0c7a12feddee3eecb687428984bbf7a0fbb88829e7ec6f5f0"},
+    {file = "oci-2.157.0.tar.gz", hash = "sha256:59e96bf0e5ebcf0393712047376f966d37385672e2bb3f824565dbb9f425913b"},
 ]
 
 [package.dependencies]
@@ -567,13 +568,13 @@ adk = ["docstring-parser (>=0.16)", "mcp (>=1.6.0)", "pydantic (>=2.10.6)", "ric
 
 [[package]]
 name = "oci-cli"
-version = "3.58.1"
+version = "3.63.2"
 description = "Oracle Cloud Infrastructure CLI"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "oci_cli-3.58.1-py3-none-any.whl", hash = "sha256:7d4b8e036529bd7d959653d5f543580212f75c11593dc21dceaffdb7f7547189"},
-    {file = "oci_cli-3.58.1.tar.gz", hash = "sha256:5f9d2f2a26b32958d86f5887a02aed837a2218b00e26ecd8599ee82b51f83db1"},
+    {file = "oci_cli-3.63.2-py3-none-any.whl", hash = "sha256:8f7f41dff75f44f97a914007edacb9f22e7ff9a8e22c51b53b1cdc38e77cc63f"},
+    {file = "oci_cli-3.63.2.tar.gz", hash = "sha256:2e509f791fb5f2adfbc3cd8b6b50b548374636a895b7edb7e0fe385c669f4575"},
 ]
 
 [package.dependencies]
@@ -582,7 +583,7 @@ certifi = ">=2025.1.31"
 click = "8.0.4"
 cryptography = ">=3.2.1,<46.0.0"
 jmespath = "0.10.0"
-oci = "2.154.1"
+oci = "2.157.0"
 prompt-toolkit = {version = ">=3.0.38,<=3.0.43", markers = "python_version > \"3.6\""}
 pyOpenSSL = ">=17.5.0,<25.0.0"
 python-dateutil = ">=2.5.3,<3.0.0"
@@ -910,17 +911,17 @@ files = [
 
 [[package]]
 name = "ruamel-yaml"
-version = "0.18.6"
+version = "0.18.14"
 description = "ruamel.yaml is a YAML parser/emitter that supports roundtrip preservation of comments, seq/map flow style, and map key order"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "ruamel.yaml-0.18.6-py3-none-any.whl", hash = "sha256:57b53ba33def16c4f3d807c0ccbc00f8a6081827e81ba2491691b76882d0c636"},
-    {file = "ruamel.yaml-0.18.6.tar.gz", hash = "sha256:8b27e6a217e786c6fbe5634d8f3f11bc63e0f80f6a5890f28863d9c45aac311b"},
+    {file = "ruamel.yaml-0.18.14-py3-none-any.whl", hash = "sha256:710ff198bb53da66718c7db27eec4fbcc9aa6ca7204e4c1df2f282b6fe5eb6b2"},
+    {file = "ruamel.yaml-0.18.14.tar.gz", hash = "sha256:7227b76aaec364df15936730efbf7d72b30c0b79b1d578bbb8e3dcb2d81f52b7"},
 ]
 
 [package.dependencies]
-"ruamel.yaml.clib" = {version = ">=0.2.7", markers = "platform_python_implementation == \"CPython\" and python_version < \"3.13\""}
+"ruamel.yaml.clib" = {version = ">=0.2.7", markers = "platform_python_implementation == \"CPython\" and python_version < \"3.14\""}
 
 [package.extras]
 docs = ["mercurial (>5.7)", "ryd"]
