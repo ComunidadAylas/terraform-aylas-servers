@@ -1,0 +1,13 @@
+{
+  "nix.enableLanguageServer": true,
+  "nix.serverPath": "nil",
+  "nix.serverSettings": {
+    // check https://github.com/oxalica/nil/blob/main/docs/configuration.md for all options available
+    "nil": {
+      "formatting": {
+        "command": ["nixfmt"]
+      }
+    }
+  },
+  "ansible.python.interpreterPath": "/nix/store/bbyp6vkdszn6a14gqnfx8l5j3mhfcnfs-python3-3.12.11/bin/python"
+}

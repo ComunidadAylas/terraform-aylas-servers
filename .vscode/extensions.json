@@ -1,10 +1,11 @@
 {
   "recommendations": [
-    "hashicorp.terraform",
     "redhat.ansible",
     "hangxingliu.vscode-systemd-support",
     "timonwong.shellcheck",
     "ms-azuretools.vscode-docker",
-    "github.vscode-github-actions"
+    "github.vscode-github-actions",
+    "opentofu.vscode-opentofu",
+    "jnoortheen.nix-ide"
   ]
 }

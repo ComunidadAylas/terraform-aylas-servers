@@ -8,8 +8,8 @@ on:
       - synchronize
 
 jobs:
-  terraform_lint:
-    name: Terraform lint
+  opentofu_lint:
+    name: OpenTofu lint
 
     runs-on: ubuntu-24.04
 
@@ -20,23 +20,23 @@ jobs:
       - name: 📥 Checkout source
         uses: actions/checkout@v4
 
-      - name: 🧰 Setup Terraform CLI
-        uses: hashicorp/setup-terraform@v3
-        env:
-          # renovate: datasource=docker depName=hashicorp/terraform versioning=docker
-          TERRAFORM_VERSION: 1.12.2
+      - name: 🧰 Install Nix
+        uses: cachix/install-nix-action@v31
+
+      - name: 💨 Setup Cachix
+        uses: cachix/cachix-action@v14
         with:
-          terraform_version: ${{ env.TERRAFORM_VERSION }}
-          terraform_wrapper: false
+          name: terraform-aylas-servers
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
-      - name: ⚙️ Initialize Terraform
-        run: terraform init
+      - name: ⚙️ Initialize OpenTofu
+        run: nix-shell --run 'tofu init'
 
-      - name: 🔍 Terraform files format check
-        run: terraform fmt -check
+      - name: 🔍 OpenTofu files format check
+        run: nix-shell --run 'tofu fmt -check'
 
-      - name: 🔍 Validate Terraform files
-        run: terraform validate
+      - name: 🔍 Validate OpenTofu files
+        run: nix-shell --run 'tofu validate'
 
   ansible_lint:
     name: Ansible lint
@@ -50,17 +50,14 @@ jobs:
       - name: 📥 Checkout source
         uses: actions/checkout@v4
 
-      - name: 🧰 Set up Poetry
-        env:
-          # renovate: datasource=pypi depName=poetry
-          POETRY_VERSION: 2.1.3
-        run: pipx install poetry==${{ env.POETRY_VERSION }}
+      - name: 🧰 Install Nix
+        uses: cachix/install-nix-action@v31
 
-      - name: 🧰 Set up Python
-        uses: actions/setup-python@v5
+      - name: 💨 Setup Cachix
+        uses: cachix/cachix-action@v14
         with:
-          python-version-file: pyproject.toml
-          cache: poetry
+          name: terraform-aylas-servers
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
       - name: ⚙️ Create Ansible Vault password file
         env:
@@ -69,8 +66,5 @@ jobs:
           mkdir secrets
           echo "$ANSIBLE_VAULT_PASSWORD" > secrets/vault_password
 
-      - name: 🧰 Install Poetry dependencies
-        run: poetry install
-
       - name: 🔍 Run ansible-lint
-        run: poetry run ansible-lint .
+        run: nix-shell --run 'ansible-lint .'

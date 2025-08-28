@@ -2,7 +2,7 @@
 <img src="https://avatars.githubusercontent.com/u/38165202" alt="OptiVorbis logo" width="33%">
 <h1>🏗️ terraform-aylas-servers</h1>
 
-<i>Terraform and Ansible artifacts to manage the Aylas Community server
+<i>OpenTofu and Ansible artifacts to manage the Aylas Community server
 infrastructure configuration, which includes a Minecraft server hosted on Always
 Free Oracle Cloud Infrastructure instances.</i>
 
@@ -28,7 +28,7 @@ improvements, or use parts of our configuration in your own deployments!
 
 # ✨ Highlights
 
-- 🏗️ Leverages [Terraform](https://www.terraform.io/) and
+- 🏗️ Leverages [OpenTofu](https://opentofu.org/) and
   [Ansible](https://www.ansible.com/) to manage our [Oracle Cloud
   Infrastructure](https://www.oracle.com/cloud/) from the sign-up on OCI to the
   moment our services are up, with minimal manual intervention.
@@ -116,21 +116,20 @@ aware of any other fine print in their conditions.</sup></sub>
 
 # 📥 Getting started
 
-After cloning the repository, run `terrashell.sh` on a Linux-like environment
-with `python3` and `pip` available (Linux, WSL) to set up a temporary [virtual
-environment](https://docs.python.org/3/library/venv.html) where Terraform,
-Ansible and the OCI CLI will be installed. This environment is automatically
-cleaned up on exit. If you are using another operating system, you can set up
-this environment manually. From here you can **run `terraform apply` to deploy
-and provision the infrastructure in less than 10 minutes**, in addition to other
-Terraform and Ansible commands.
+After cloning the repository, run `tofushell.sh` on a Linux-like environment
+where `nix` is available to open a shell where OpenTofu, Ansible and the OCI CLI
+will be installed. Downloaded artifacts for this environment can be cleaned up
+with `nix-collect-garbage -d`. If you are using another operating system, you
+can set up this environment manually. From here you can **run `tofu apply` to
+deploy and provision the infrastructure in less than 10 minutes**, in addition
+to other OpenTofu and Ansible commands.
 
 ## ✏️ Variables and secrets
 
 For obvious reasons, the default values of some variables may not be suitable
 for your particular scenario (i.e., the OCI tenancy region), and some pieces of
-configuration are stored as [sensitive Terraform
-variables](https://developer.hashicorp.com/terraform/language/values/variables#suppressing-values-in-cli-output)
+configuration are stored as [sensitive OpenTofu
+variables](https://opentofu.org/docs/OpenTofu/values/outputs/#sensitive--suppressing-values-in-cli-output)
 or [Ansible Vault encrypted
 variables](https://docs.ansible.com/ansible/latest/vault_guide/index.html).
 These variables are defined at the `*.ansible.yml` and `variables.tf` files.

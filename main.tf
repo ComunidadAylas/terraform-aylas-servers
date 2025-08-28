@@ -2,7 +2,7 @@
 #
 # Related documentation:
 # https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraformresourcediscovery_topic-Using.htm
-# https://registry.terraform.io/providers/oracle/oci/latest/docs
+# https://search.opentofu.org/provider/oracle/oci/latest
 # https://developer.hashicorp.com/terraform/tutorials/oci-get-started
 # https://www.digitalocean.com/community/tutorials/how-to-use-ansible-with-terraform-for-configuration-management
 
@@ -38,7 +38,7 @@ resource "oci_core_vcn" "aylas-net" {
 resource "oci_core_subnet" "aylas-one-subnet" {
   cidr_block = "10.0.0.0/24"
   # This should match the IPv6 prefix allocated to aylas-net,
-  # which can't be retrieved from Terraform
+  # which can't be retrieved from OpenTofu
   ipv6cidr_block             = "2603:c027:8701:1900::/64"
   display_name               = "aylas-one-subnet"
   dns_label                  = "one"

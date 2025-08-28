@@ -1,18 +1,20 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base", "schedule:monthly"
-  ],
+  "extends": ["config:base", "schedule:monthly"],
   "groupName": "Configuration management dependencies",
   "regexManagers": [
     {
       "fileMatch": [
         "^.github/(?:workflows|actions)/.+\\.ya?ml$",
-        "^terrashell.sh$"
+        "^tofushell.sh$"
       ],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>[^\\s]+?)(?: (?:lookupName|packageName)=(?<packageName>[^\\s]+?))?(?: versioning=(?<versioning>[a-z-0-9]+?))?\\s+(?:readonly\\s+)?[A-Za-z0-9_]+?_VERSION\\s*[:=]\\s*[\"']?(?<currentValue>.+?)[\"']?\\s"
       ]
     }
-  ]
+  ],
+  "nix": {
+    "managerFilePatterns": ["/(^|/)shell\\.nix$/"],
+    "enabled": true
+  }
 }
