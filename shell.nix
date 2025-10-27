@@ -24,7 +24,7 @@ pkgs.mkShellNoCC {
     echo '> Installing Ansible Galaxy artifacts...'
     ansible-galaxy install -r requirements.yml
 
-    if [ -z "$CI" ]; then
+    if [ -z "${CI:-}" ]; then
       echo
       echo '> Authenticating with OCI...'
       oci session authenticate --profile-name terraform-aylas --region "$OCI_TENANCY_REGION"
