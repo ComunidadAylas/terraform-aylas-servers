@@ -5,4 +5,4 @@ roles:
 
 collections:
   - name: community.general
-    version: ">=11.3.0,<11.4.0"
+    version: ">=11.4.0,<11.5.0"
