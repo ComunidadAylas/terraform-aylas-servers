@@ -54,6 +54,10 @@ profile "{{ user }}-purpur-mc-server" {
   # Grant access to server data
   {{ directory }}{,/**} mrwk,
 
+  # Allow file watching, used by BlueMap and LuckPerms.
+  # File watching internally uses anonymous Unix sockets
+  unix (send,receive) addr=none,
+
   # Restart script
   {{ directory }}/restart.sh ix,
   /usr/bin/dash ix,
