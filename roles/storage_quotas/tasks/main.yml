@@ -63,7 +63,7 @@
 - name: Activate quota accounting
   become: true
   ansible.builtin.systemd_service:
-    name: quotaon
+    name: quotaon-root
     state: started
     enabled: true
 
