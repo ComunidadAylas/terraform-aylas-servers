@@ -25,7 +25,7 @@
         rcon_password: "{{ lookup('ansible.builtin.password', '/dev/null', seed='khron' ~ inventory_hostname) }}"
         java_sdkman_user: sdkman
         java_sdkman_group: sdkman
-        java_version: 21.0.1-graal # Installed by SDKMAN
+        java_version: 25.0.4-graal # Installed by SDKMAN
         java_vm_heap_memory: "3584M"
         cgroup_high_memory: "4864M"
         cgroup_max_memory: "5G"
