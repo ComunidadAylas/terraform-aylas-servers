@@ -11,7 +11,7 @@ jobs:
   opentofu_lint:
     name: OpenTofu lint
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     # Exclude in-repo PRs from running this job
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork
@@ -35,7 +35,7 @@ jobs:
   ansible_lint:
     name: Ansible lint
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     # Exclude in-repo PRs from running this job
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork
