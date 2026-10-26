@@ -224,7 +224,8 @@ while true; do
   unset RESTARTING
   rm -f "$STOPPED_FLAG_FILE"
 
-  # Java flags based on research at https://github.com/brucethemoose/Minecraft-Performance-Flags-Benchmarks
+  # Java flags based on research at https://github.com/brucethemoose/Minecraft-Performance-Flags-Benchmarks,
+  # with additional properties to enable TLS certificate revocation checks based on https://openjdk.org/emudhra
   status_code=0
   aa-exec --profile='{{ user }}-purpur-mc-server' \
     '/home/{{ java_sdkman_user }}/.sdkman/candidates/java/{{ java_version }}/bin/java' \
@@ -240,6 +241,7 @@ while true; do
     -XX:+UseTransparentHugePages -XX:+EagerJVMCI -Dgraal.TuneInlinerExploration=1 -Dgraal.CompilerConfiguration=enterprise \
     -Xlog:gc+init \
     --add-modules=jdk.incubator.vector \
+    -Dcom.sun.net.ssl.checkRevocation=true -Dcom.sun.security.enableCRLDP=true \
     -jar purpur.jar || status_code=$?
 
   touch "$STOPPED_FLAG_FILE"

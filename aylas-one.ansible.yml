@@ -25,7 +25,14 @@
         rcon_password: "{{ lookup('ansible.builtin.password', '/dev/null', seed='khron' ~ inventory_hostname) }}"
         java_sdkman_user: sdkman
         java_sdkman_group: sdkman
-        java_version: 25.0.4-graal # Installed by SDKMAN
+        # Java is installed by SDKMAN. A recent SDKMAN version is required to
+        # download the latest Java versions, as old versions point to a retired
+        # endpoint that's not receiving further updates. In turn, updating to
+        # such a version may require explicitly enabling the selfupdate SDKMAN
+        # feature. See:
+        # - https://github.com/sdkman/sdkman-cli/issues/1573
+        # - https://github.com/sdkman/sdkman-cli/issues/1121
+        java_version: 25.4.4+1-graal
         java_vm_heap_memory: "3584M"
         cgroup_high_memory: "4864M"
         cgroup_max_memory: "5G"
